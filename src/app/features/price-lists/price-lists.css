@@ -1,0 +1,50 @@
+:host {
+  display: block;
+}
+
+.page {
+  width: min(1200px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2rem 0 3rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.5rem;
+  color: var(--primary);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+h1,
+h2 {
+  margin: 0 0 0.6rem;
+}
+
+p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.9rem;
+  margin-top: 1.5rem;
+}
+
+mat-card {
+  padding: 1.15rem;
+  border-radius: 1.25rem !important;
+}
+
+.meta {
+  margin: 0 0 0.5rem;
+  color: var(--primary);
+  font-weight: 800;
+}
+
+button {
+  margin-top: 1rem;
+}

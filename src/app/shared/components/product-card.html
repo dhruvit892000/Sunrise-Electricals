@@ -1,0 +1,26 @@
+<mat-card class="product-card" appearance="outlined">
+  <span class="badge">{{ product().badge }}</span>
+  <p class="meta">{{ product().brand }} · {{ product().category }}</p>
+  <h3>{{ product().name }}</h3>
+  <p>{{ product().description }}</p>
+  <dl>
+    <div>
+      <dt>SKU</dt>
+      <dd>{{ product().sku }}</dd>
+    </div>
+    <div>
+      <dt>MOQ</dt>
+      <dd>{{ product().moq }}</dd>
+    </div>
+    <div>
+      <dt>Availability</dt>
+      <dd>{{ product().availability }}</dd>
+    </div>
+  </dl>
+  <div class="actions">
+    <span>{{ product().priceLabel }}</span>
+    <a mat-flat-button color="primary" routerLink="/quote" [queryParams]="{ sku: product().sku }">
+      Get Quote
+    </a>
+  </div>
+</mat-card>

@@ -1,0 +1,36 @@
+<mat-toolbar class="site-header" color="primary">
+  <button
+    type="button"
+    class="menu-button"
+    mat-icon-button
+    aria-label="Open navigation menu"
+    (click)="menuToggle.emit()"
+  >
+    <span class="menu-icon" aria-hidden="true"></span>
+  </button>
+
+  <a class="brand" routerLink="/" aria-label="Sunrise Electricals home">
+    <span class="brand-mark" aria-hidden="true">SE</span>
+    <span class="brand-copy">
+      <span class="brand-name">Sunrise Electricals</span>
+      <span class="brand-subtitle">Wholesale electrical supply</span>
+    </span>
+  </a>
+
+  <nav class="desktop-nav" aria-label="Primary">
+    @for (link of nav; track link.path) {
+      <a
+        mat-button
+        [routerLink]="link.path"
+        routerLinkActive="nav-active"
+        [routerLinkActiveOptions]="{ exact: link.path === '/' }"
+      >
+        {{ link.label }}
+      </a>
+    }
+  </nav>
+
+  <span class="spacer"></span>
+
+  <a mat-flat-button class="quote-cta" routerLink="/quote">Request Quote</a>
+</mat-toolbar>

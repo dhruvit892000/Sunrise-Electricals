@@ -1,0 +1,94 @@
+<section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow">B2B wholesale electrical distribution</p>
+    <h1>Bulk electrical supply for factories, contractors, and project buyers</h1>
+    <p>
+      Sunrise Electricals sources switchgear, cables, lighting, and industrial controls from
+      trusted brands, then quotes bulk pricing with reliable availability.
+    </p>
+    <div class="hero-actions">
+      <a mat-flat-button color="primary" routerLink="/quote">Request a bulk quote</a>
+      <a mat-stroked-button routerLink="/products">Browse catalog</a>
+    </div>
+    <ul class="highlights">
+      @for (item of highlights; track item) {
+        <li>{{ item }}</li>
+      }
+    </ul>
+  </div>
+
+  <aside class="hero-panel" aria-labelledby="quick-quote-heading">
+    <h2 id="quick-quote-heading">Quick quote</h2>
+    <p>Tell us the brand, quantity, and delivery location. Sales will reply with a commercial offer.</p>
+    <app-quote-form />
+  </aside>
+</section>
+
+<section class="stats" aria-label="Business metrics">
+  @for (stat of stats; track stat.label) {
+    <article>
+      <strong>{{ stat.value }}</strong>
+      <span>{{ stat.label }}</span>
+    </article>
+  }
+</section>
+
+<section class="section">
+  <div class="section-heading">
+    <p class="eyebrow">Trusted brands</p>
+    <h2>Authorized wholesale supply across leading electrical names</h2>
+  </div>
+  <ul class="brand-list">
+    @for (brand of brands; track brand) {
+      <li>{{ brand }}</li>
+    }
+  </ul>
+</section>
+
+<section class="section">
+  <div class="section-heading">
+    <p class="eyebrow">Categories</p>
+    <h2>Industrial and commercial product families</h2>
+  </div>
+  <div class="card-grid">
+    @for (category of categories; track category.slug) {
+      <mat-card appearance="outlined">
+        <p class="count">{{ category.count }}</p>
+        <h3>{{ category.title }}</h3>
+        <p>{{ category.description }}</p>
+        <a mat-button color="primary" routerLink="/products" [queryParams]="{ category: category.filterKey }">
+          View products
+        </a>
+      </mat-card>
+    }
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading">
+    <p class="eyebrow">Featured SKUs</p>
+    <h2>Project-ready products available for bulk enquiry</h2>
+  </div>
+  <div class="product-grid">
+    @for (product of products; track product.id) {
+      <app-product-card [product]="product" />
+    }
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading">
+    <p class="eyebrow">Price lists</p>
+    <h2>Download brand catalogues and current market lists</h2>
+  </div>
+  <div class="card-grid">
+    @for (list of priceLists; track list.id) {
+      <mat-card appearance="outlined">
+        <p class="count">{{ list.brand }} · {{ list.size }}</p>
+        <h3>{{ list.title }}</h3>
+        <p>{{ list.date }}</p>
+        <a mat-stroked-button routerLink="/price-lists">Download PDF</a>
+      </mat-card>
+    }
+  </div>
+</section>

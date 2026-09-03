@@ -1,1 +1,46 @@
-/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+:root {
+  color-scheme: light;
+  --page-bg: #edf2f8;
+  --surface: #ffffff;
+  --surface-strong: #f6f9ff;
+  --primary: #0d3d76;
+  --primary-strong: #0a2d5d;
+  --accent: #f7b94e;
+  --text: #0f172a;
+  --muted: #475569;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  font-family: Inter, 'Segoe UI', sans-serif;
+  background: var(--page-bg);
+  color: var(--text);
+}
+
+body {
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}

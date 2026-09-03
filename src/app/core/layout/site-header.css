@@ -1,0 +1,120 @@
+:host {
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.site-header {
+  display: flex;
+  gap: 0.75rem;
+  min-height: 72px;
+  padding-inline: 1rem;
+  background: var(--primary);
+  color: #fff;
+}
+
+.menu-button {
+  display: none;
+}
+
+.menu-icon,
+.menu-icon::before,
+.menu-icon::after {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 99px;
+}
+
+.menu-icon {
+  position: relative;
+}
+
+.menu-icon::before,
+.menu-icon::after {
+  content: '';
+  position: absolute;
+  left: 0;
+}
+
+.menu-icon::before {
+  top: -6px;
+}
+
+.menu-icon::after {
+  top: 6px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 0.7rem;
+  background: var(--accent);
+  color: var(--primary-strong);
+  font-weight: 800;
+}
+
+.brand-copy {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.brand-name {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.brand-subtitle {
+  font-size: 0.75rem;
+  opacity: 0.85;
+}
+
+.desktop-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem;
+}
+
+.desktop-nav a {
+  color: #fff;
+}
+
+.nav-active {
+  background: color-mix(in srgb, #fff 16%, transparent);
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.quote-cta {
+  background: var(--accent);
+  color: var(--primary-strong);
+  font-weight: 700;
+}
+
+@media (max-width: 960px) {
+  .menu-button {
+    display: inline-flex;
+  }
+
+  .desktop-nav,
+  .quote-cta {
+    display: none;
+  }
+}

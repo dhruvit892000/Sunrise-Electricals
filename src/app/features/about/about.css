@@ -1,0 +1,32 @@
+:host {
+  display: block;
+}
+
+.page {
+  width: min(800px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2rem 0 3rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.5rem;
+  color: var(--primary);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0 0 0.8rem;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+}
+
+p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+a {
+  margin-top: 1rem;
+}

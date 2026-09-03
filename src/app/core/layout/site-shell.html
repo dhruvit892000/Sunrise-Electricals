@@ -1,0 +1,30 @@
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<mat-sidenav-container class="shell">
+  <mat-sidenav #drawer mode="over" [autoFocus]="false" aria-label="Mobile navigation">
+    <nav class="drawer-nav">
+      <a mat-button routerLink="/" (click)="drawer.close()">Sunrise Electricals</a>
+      <mat-nav-list>
+        @for (link of nav; track link.path) {
+          <a
+            mat-list-item
+            [routerLink]="link.path"
+            routerLinkActive="nav-active"
+            [routerLinkActiveOptions]="{ exact: link.path === '/' }"
+          >
+            {{ link.label }}
+          </a>
+        }
+      </mat-nav-list>
+      <a mat-flat-button color="primary" routerLink="/quote">Request Quote</a>
+    </nav>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <app-site-header (menuToggle)="drawer.toggle()" />
+    <main id="main-content" tabindex="-1">
+      <router-outlet />
+    </main>
+    <app-site-footer />
+  </mat-sidenav-content>
+</mat-sidenav-container>

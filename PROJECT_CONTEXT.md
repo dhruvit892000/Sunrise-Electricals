@@ -27,27 +27,34 @@ sunrise-electricals/
   AGENTS.md
   CLAUDE.md
   PROJECT_CONTEXT.md
+  DEVELOPMENT_RULES.md
   README.md
   angular.json
   package.json
-  tsconfig.json
-  tsconfig.app.json
-  tsconfig.spec.json
   public/
   src/
     app/
       app.config.ts
-      app.config.server.ts
-      app.css
-      app.html
       app.routes.ts
-      app.routes.server.ts
-      app.spec.ts
       app.ts
+      core/
+        layout/
+          site-shell.ts
+          site-header.ts
+          site-footer.ts
+      features/
+        home/
+        products/
+        price-lists/
+        quote/
+        about/
+        contact/
+      shared/
+        components/
+        data/
+        models/
+        services/
     index.html
-    main.server.ts
-    main.ts
-    server.ts
     styles.css
 ```
 
@@ -61,14 +68,16 @@ These files are not part of the build, but they define coding expectations for A
 
 ## 5. Current State of the App
 
-As of now, the app is in an early default Angular starter state:
+The app is no longer a default Angular starter. It is a first B2B wholesale site with:
 
-- `src/app/app.ts` uses `signal('sunrise-electricals')`
-- `src/app/app.html` contains Angular starter template content and default branding
-- no real business pages, product catalog, checkout flow, or electricals domain logic are implemented yet
-- the app has route support configured but no custom feature modules/pages are present yet
+- site shell, header, footer, and mobile sidenav
+- lazy-loaded routes for Home, Products, Price Lists, Quote, About, and Contact
+- shared catalog models, mock catalog data, and `CatalogService`
+- product cards with SKU, MOQ, availability, and quote CTAs
+- quote request form used on Home, Quote, and Contact
+- category search/filter on the catalog page
 
-This means the project is not fully built out; it is a clean Angular foundation ready for actual feature development.
+Backend API integration and live PDF downloads are not implemented yet.
 
 ## 6. How to Run the Project
 
@@ -182,10 +191,10 @@ When continuing this project in a new session or on another machine:
 
 Current status:
 
-- Angular project scaffolded successfully
-- App boots and is ready for development
-- No business-specific UI or functionality implemented yet
-- Repo is prepared for feature development and AI-assisted coding
+- Angular 22 frontend with Angular Material
+- B2B wholesale landing page and primary business routes are in place
+- Catalog, quote, and contact flows use mock data
+- Ready for branding polish, real product data, and API integration
 
 ## 12. Next Suggested Tasks
 
@@ -198,4 +207,206 @@ Current status:
 7. Connect to backend API if available
 8. Add tests for critical business flows
 
-This is the working memory snapshot for the Sunrise Electricals frontend as of September 2, 2026.
+## 13. Development Rules
+
+The project now follows a dedicated development standards file:
+
+- `DEVELOPMENT_RULES.md` defines the UI, architecture, and documentation standards for all future work.
+- All future implementation must use modern, responsive, business-ready design patterns.
+- Angular Material / Material-inspired UI patterns are the preferred component standard for reusable controls and layouts.
+- The app must be built dynamically and responsively with premium, conversion-focused design.
+- Every substantial development step must be recorded in this file in parallel with implementation.
+
+## 14. Initial Documentation Log
+
+### 2026-09-02
+
+- Created `DEVELOPMENT_RULES.md` to formalize project standards.
+- Added the requirement to use modern Angular Material-inspired UI patterns and responsive premium design.
+- Added the rule that every development task must be documented in `PROJECT_CONTEXT.md`.
+- Confirmed the project remains in starter state and is ready for business UI development.
+
+This is the working memory snapshot for the Sunrise Electricals frontend as of September 2, 2026, with the agreed development rules now in place.
+
+## 15. Business Clarification and Product Strategy
+
+### 2026-09-02
+
+The business model is clarified as a B2B wholesale electrical distribution business, not a retail store.
+
+#### Business Model
+
+- Primary customers: factories, industrial units, commercial businesses, contractors, project buyers, maintenance teams
+- Sales approach: bulk supply and dealer-led wholesale procurement
+- Customer value proposition: competitive pricing, trusted brands, reliable supply, bulk availability, quick quotations
+- Revenue model: margin between purchase cost and customer selling price
+- Sales channels: direct B2B inquiries, quote requests, downloadable price lists, supplier-based procurement support
+
+#### Product Scope
+
+The platform should support a wide electrical product catalog covering:
+
+- L&T
+- Siemens
+- Hager
+- RR Kabel
+- Polycab
+- Syska LED
+- KEI Wires and Cables
+- Crompton
+- Havells
+- plus additional electrical brands and product families across the market
+
+#### Product Categories
+
+- Contactors
+- Relays
+- Switches
+- Plug sockets
+- MCBs / breakers
+- Distribution boards
+- Cable and wire solutions
+- Lighting products
+- Industrial controls
+- Safety devices
+- Panel accessories
+- Switchgear items
+- Electrical accessories and spares
+
+#### Core Website Purpose
+
+The website should become a B2B quotation and product enquiry platform where users can:
+
+- browse electrical products and categories
+- search products by brand, category, or application
+- view latest price list downloads by brand or category
+- request a quote for bulk orders
+- send inquiry for product availability or pricing
+- download price list documents or PDF catalogs
+- contact the sales team for industrial supply requirements
+
+#### Required App Sections
+
+- Home page with business hero section and trust messaging
+- Product catalog page with filter/search
+- Category-based browsing
+- Brand catalog section
+- Downloadable price list page
+- Quote request form
+- Inquiry / bulk order form
+- Contact page
+- About / company profile page
+- Maybe dealer / supplier partnership page in future
+
+#### Product Data Expectations
+
+Each product entry should ideally include:
+
+- product name
+- brand
+- category
+- subcategory
+- SKU or part number
+- description
+- image or placeholder
+- price per unit or price reference
+- MOQ / bulk pricing if applicable
+- availability status
+- application / use case
+- technical specifications
+
+#### UI Strategy
+
+- premium B2B industrial style
+- strong trust-based design
+- product cards with specs and CTA buttons
+- quote buttons on every product card
+- downloadable PDF cards for market price lists
+- clean, modern, enterprise-style layout
+- responsive design for desktop and mobile negotiation flows
+
+#### Initial Delivery Plan
+
+1. Create a premium landing page for Sunrise Electricals
+2. Add a catalog layout with category-based product cards
+3. Add product search and filter UI
+4. Add quote request form for bulk buyers
+5. Add downloadable price list section
+6. Add contact and inquiry pages
+7. Add business branding, trust sections, and CTA banners
+8. Integrate real backend/API later when data source is ready
+
+This update captures the new wholesale electrical business direction and the customer quotation-driven product flow for the app.
+
+## 16. Development Log
+
+### 2026-09-02 - Homepage and B2B Industrial Design
+
+- Created the first premium Sunrise Electricals homepage in the Angular app.
+- Introduced Angular Material-based UI components for navigation, cards, form inputs, and CTA blocks.
+- Added a modern B2B industrial look with business-focused sections:
+  - hero banner
+  - trusted brands list
+  - category cards
+  - featured products
+  - price list cards
+  - bulk quote inquiry CTA
+- Structured the app around the wholesale electrical supply use case rather than retail e-commerce.
+- Added the first version of a business-ready, customer-facing landing page for quote-based electrical procurement.
+- Added the `DEVELOPMENT_RULES.md` to define standard UI, documentation, and development expectations.
+
+This log ensures the project memory reflects the current implementation and design direction for future work.
+
+## 17. Homepage Layout Refinement
+
+### 2026-09-02 - Industrial B2B Layout Improvement
+
+- Reviewed the homepage and identified that the initial version still looked too generic and starter-like.
+- Reworked the homepage into a cleaner, more structured B2B industrial layout.
+- Improved the overall hierarchy with:
+  - premium header and navigation
+  - stronger hero section
+  - business-focused CTA blocks
+  - better category and product card structure
+  - clearer pricing section and sales CTA
+- Simplified the design to better match the wholesale electrical distribution business model.
+- Kept the layout responsive and suitable for industrial/commercial buyers.
+
+This update reflects the more appropriate business-first layout for Sunrise Electricals.
+
+## 18. First Feature Architecture and Business Pages
+
+### 2026-09-03 - Routing, catalog, and quote flow
+
+- Read `PROJECT_CONTEXT.md` and `DEVELOPMENT_RULES.md` before continuing implementation.
+- Replaced the remaining starter/placeholder homepage markup with a routed B2B site shell.
+- Added a feature-based structure:
+  - `core/layout` for header, footer, and mobile sidenav
+  - `shared/models`, `shared/data`, and `CatalogService`
+  - reusable `ProductCard` and `QuoteForm`
+  - lazy-loaded Home, Products, Price Lists, Quote, About, and Contact pages
+- Home now includes hero, stats, brands, categories, featured products, price-list cards, and an on-page quote form.
+- Products page supports search plus brand/category filters, including query-param deep links from category cards.
+- Quote form validates company, contact, email, phone, and requirement details. SKU can be passed from a product card.
+- Price list PDFs remain placeholders until real files are available.
+- Design system uses navy primary, gold accent, Material cards/forms, and responsive grids.
+
+Files added or substantially updated:
+
+- `src/app/app.ts`, `src/app/app.html`, `src/app/app.css`, `src/app/app.routes.ts`, `src/app/app.spec.ts`
+- `src/index.html`, `src/styles.css`
+- `src/app/core/layout/*`
+- `src/app/features/home/*`, `products/*`, `price-lists/*`, `quote/*`, `about/*`, `contact/*`
+- `src/app/shared/models/catalog.models.ts`
+- `src/app/shared/data/catalog.data.ts`
+- `src/app/shared/services/catalog.service.ts`
+- `src/app/shared/components/product-card.*`
+- `src/app/shared/components/quote-form.*`
+
+Next steps:
+
+- Connect quote submissions to a backend or email API
+- Replace mock catalog with live product data
+- Add real PDF assets for price lists
+- Expand product detail pages and technical specification views
+- Continue visual polish against a brand identity pack if provided

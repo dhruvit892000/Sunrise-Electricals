@@ -1,0 +1,50 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: -3rem;
+  z-index: 40;
+  padding: 0.5rem 0.75rem;
+  background: var(--accent);
+  color: var(--primary-strong);
+  font-weight: 700;
+}
+
+.skip-link:focus {
+  top: 0.75rem;
+}
+
+.shell {
+  min-height: 100vh;
+  background: var(--page-bg);
+}
+
+.drawer-nav {
+  display: grid;
+  gap: 0.75rem;
+  width: min(280px, 80vw);
+  padding: 1rem;
+}
+
+mat-sidenav-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+main:focus {
+  outline: none;
+}
+
+main:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: -3px;
+}

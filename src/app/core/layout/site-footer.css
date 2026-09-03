@@ -1,0 +1,53 @@
+:host {
+  display: block;
+  margin-top: auto;
+}
+
+.site-footer {
+  padding: 2.5rem 1.25rem 1.25rem;
+  background: var(--primary-strong);
+  color: #e8eef8;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  width: min(1200px, 100%);
+  margin: 0 auto;
+}
+
+h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+}
+
+p,
+a {
+  color: inherit;
+  line-height: 1.6;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+li + li {
+  margin-top: 0.4rem;
+}
+
+.copyright {
+  width: min(1200px, 100%);
+  margin: 2rem auto 0;
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in srgb, #fff 14%, transparent);
+  font-size: 0.875rem;
+}
+
+@media (max-width: 800px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}

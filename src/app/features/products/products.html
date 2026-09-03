@@ -1,0 +1,46 @@
+<section class="page">
+  <header>
+    <p class="eyebrow">Product catalog</p>
+    <h1>Search electrical products by brand, category, or SKU</h1>
+    <p>Request a quote on any item. Pricing is quoted for bulk and project procurement.</p>
+  </header>
+
+  <form class="filters" aria-label="Product filters">
+    <mat-form-field appearance="outline">
+      <mat-label>Search products</mat-label>
+      <input matInput [formControl]="search" type="search" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Brand</mat-label>
+      <mat-select [formControl]="brand">
+        <mat-option value="all">All brands</mat-option>
+        @for (item of brands; track item) {
+          <mat-option [value]="item">{{ item }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Category</mat-label>
+      <mat-select [formControl]="category">
+        <mat-option value="all">All categories</mat-option>
+        @for (item of categories; track item) {
+          <mat-option [value]="item">{{ item }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </form>
+
+  <p class="count" role="status">{{ resultCount() }} products found</p>
+
+  @if (filteredProducts().length === 0) {
+    <p>No products match the current filters. Try another brand or search term.</p>
+  } @else {
+    <div class="grid">
+      @for (product of filteredProducts(); track product.id) {
+        <app-product-card [product]="product" />
+      }
+    </div>
+  }
+</section>

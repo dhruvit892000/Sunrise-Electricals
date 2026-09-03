@@ -1,0 +1,21 @@
+<section class="page">
+  <header>
+    <p class="eyebrow">Downloads</p>
+    <h1>Brand price lists and catalogues</h1>
+    <p>
+      These files are sample placeholders until live PDFs are connected. Request a quote for
+      current bulk pricing.
+    </p>
+  </header>
+
+  <div class="grid">
+    @for (list of priceLists; track list.id) {
+      <mat-card appearance="outlined">
+        <p class="meta">{{ list.brand }} · {{ list.size }}</p>
+        <h2>{{ list.title }}</h2>
+        <p>{{ list.date }}</p>
+        <button mat-stroked-button type="button" disabled>PDF coming soon</button>
+      </mat-card>
+    }
+  </div>
+</section>
