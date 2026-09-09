@@ -6,6 +6,5 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'app-about',
   imports: [RouterLink, MatButtonModule],
   templateUrl: './about.html',
-  styleUrl: './about.css',
 })
 export class About {}

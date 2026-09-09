@@ -16,7 +16,6 @@ import { CatalogService } from '../services/catalog.service';
     MatButtonModule,
   ],
   templateUrl: './quote-form.html',
-  styleUrl: './quote-form.css',
 })
 export class QuoteForm {
   private readonly catalog = inject(CatalogService);

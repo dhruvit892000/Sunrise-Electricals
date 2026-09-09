@@ -13,7 +13,6 @@ import { CatalogService } from '../../shared/services/catalog.service';
   selector: 'app-products',
   imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, ProductCard],
   templateUrl: './products.html',
-  styleUrl: './products.css',
 })
 export class Products {
   private readonly catalog = inject(CatalogService);

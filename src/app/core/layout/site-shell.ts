@@ -22,7 +22,6 @@ import { SiteHeader } from './site-header';
     SiteFooter,
   ],
   templateUrl: './site-shell.html',
-  styleUrl: './site-shell.css',
 })
 export class SiteShell {
   private readonly catalog = inject(CatalogService);

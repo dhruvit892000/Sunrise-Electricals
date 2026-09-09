@@ -5,6 +5,5 @@ import { RouterLink } from '@angular/router';
   selector: 'app-site-footer',
   imports: [RouterLink],
   templateUrl: './site-footer.html',
-  styleUrl: './site-footer.css',
 })
 export class SiteFooter {}

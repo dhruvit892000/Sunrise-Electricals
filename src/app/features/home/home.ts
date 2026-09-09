@@ -10,7 +10,6 @@ import { CatalogService } from '../../shared/services/catalog.service';
   selector: 'app-home',
   imports: [RouterLink, MatButtonModule, MatCardModule, ProductCard, QuoteForm],
   templateUrl: './home.html',
-  styleUrl: './home.css',
 })
 export class Home {
   private readonly catalog = inject(CatalogService);

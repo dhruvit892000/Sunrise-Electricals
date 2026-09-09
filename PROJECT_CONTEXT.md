@@ -55,7 +55,7 @@ sunrise-electricals/
         models/
         services/
     index.html
-    styles.css
+    styles.scss
 ```
 
 ## 4. Important Rule Files

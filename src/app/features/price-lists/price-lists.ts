@@ -7,7 +7,6 @@ import { CatalogService } from '../../shared/services/catalog.service';
   selector: 'app-price-lists',
   imports: [MatCardModule, MatButtonModule],
   templateUrl: './price-lists.html',
-  styleUrl: './price-lists.css',
 })
 export class PriceLists {
   private readonly catalog = inject(CatalogService);

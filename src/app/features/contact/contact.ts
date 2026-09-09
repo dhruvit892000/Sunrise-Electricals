@@ -5,6 +5,5 @@ import { QuoteForm } from '../../shared/components/quote-form';
   selector: 'app-contact',
   imports: [QuoteForm],
   templateUrl: './contact.html',
-  styleUrl: './contact.css',
 })
 export class Contact {}

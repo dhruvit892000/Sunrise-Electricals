@@ -8,7 +8,6 @@ import { QuoteForm } from '../../shared/components/quote-form';
   selector: 'app-quote',
   imports: [QuoteForm],
   templateUrl: './quote.html',
-  styleUrl: './quote.css',
 })
 export class Quote {
   private readonly route = inject(ActivatedRoute);

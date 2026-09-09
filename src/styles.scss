@@ -1,0 +1,928 @@
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+/* ========================================
+   Global / Theme
+   ======================================== */
+:root {
+  color-scheme: light;
+
+  /* Page */
+  --page-bg: #fff8f1;
+  --surface: #ffffff;
+  --surface-strong: #fff1e2;
+
+  /* Sunrise Orange */
+  --primary: #f28c28;
+  --primary-strong: #d96f0b;
+  --primary-dark: #b95705;
+
+  /* Light Orange */
+  --accent: #ffb45c;
+  --accent-light: #ffe3bf;
+
+  /* Text */
+  --text: #2d2118;
+  --muted: #6b5b4d;
+
+  /* UI */
+  --border: #f3d4b3;
+  --hover-bg: #fff3e4;
+
+  /* Status */
+  --success: #2e7d32;
+  --danger: #d32f2f;
+}
+
+
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  font-family: Inter, 'Segoe UI', sans-serif;
+  background: var(--page-bg);
+  color: var(--text);
+}
+
+body {
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ========================================
+   Site Shell
+   ======================================== */
+
+.shell {
+  min-height: 100vh;
+  background: var(--page-bg);
+
+  .drawer-nav {
+    display: grid;
+    gap: 0.75rem;
+    width: min(280px, 80vw);
+    padding: 1rem;
+  }
+
+  mat-sidenav-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  main {
+    flex: 1 0 auto;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: -3px;
+    }
+  }
+}
+
+/* ========================================
+   Accessibility
+   ======================================== */
+
+.skip-link {
+  position: fixed;
+  left: 0.75rem;
+  top: -4rem;
+  z-index: 1000;
+  padding: 0.5rem 0.75rem;
+  background: var(--accent);
+  color: var(--primary-strong);
+  font-weight: 700;
+  text-decoration: none;
+  transition: top 0.2s ease;
+
+  &:focus {
+    top: 0.75rem;
+  }
+}
+
+/* ========================================
+   Site Header
+   ======================================== */
+
+.site-header {
+  display: flex;
+  gap: 0.75rem;
+  min-height: 72px;
+  padding-inline: 1rem;
+
+  .menu-button {
+    display: none;
+  }
+
+  .menu-icon,
+  .menu-icon::before,
+  .menu-icon::after {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 99px;
+  }
+
+  .menu-icon {
+    position: relative;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+    }
+
+    &::before {
+      top: -6px;
+    }
+
+    &::after {
+      top: 6px;
+    }
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    min-width: 0;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .brand-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 0.7rem;
+    background: var(--accent);
+    color: var(--primary-strong);
+    font-weight: 800;
+  }
+
+  .brand-copy {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
+
+  .brand-name {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .brand-subtitle {
+    font-size: 0.75rem;
+    opacity: 0.85;
+  }
+
+  .desktop-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.15rem;
+
+    a {
+      color: #fff;
+    }
+  }
+
+  .nav-active {
+    background: color-mix(in srgb, #fff 16%, transparent);
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+
+  .quote-cta {
+    background: var(--accent);
+    color: var(--primary-strong);
+    font-weight: 700;
+  }
+}
+
+@media (max-width: 960px) {
+  .site-header {
+    .menu-button {
+      display: inline-flex;
+    }
+
+    .desktop-nav,
+    .quote-cta {
+      display: none;
+    }
+  }
+}
+
+/* ========================================
+   Site Footer
+   ======================================== */
+
+.site-footer {
+  padding: 2.5rem 1.25rem 1.25rem;
+  background: var(--primary-strong);
+  color: #e8eef8;
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    width: min(1200px, 100%);
+    margin: 0 auto;
+  }
+
+  h2 {
+    margin: 0 0 0.75rem;
+    font-size: 1rem;
+  }
+
+  p,
+  a {
+    color: inherit;
+    line-height: 1.6;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li+li {
+    margin-top: 0.4rem;
+  }
+
+  .copyright {
+    width: min(1200px, 100%);
+    margin: 2rem auto 0;
+    padding-top: 1rem;
+    border-top: 1px solid color-mix(in srgb, #fff 14%, transparent);
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .site-footer {
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+/* ========================================
+   About Page
+   ======================================== */
+
+.about-page {
+  width: min(800px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2rem 0 3rem;
+
+  .eyebrow {
+    margin: 0 0 0.5rem;
+    color: var(--primary);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    margin: 0 0 0.8rem;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+  }
+
+  p {
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  a {
+    margin-top: 1rem;
+  }
+}
+
+/* ========================================
+   Contact Page
+   ======================================== */
+
+.contact-page {
+  width: min(1100px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2rem 0 3rem;
+
+  .eyebrow {
+    margin: 0 0 0.5rem;
+    color: var(--primary);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  h1,
+  h2 {
+    margin: 0 0 0.6rem;
+  }
+
+  p,
+  a {
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 0.7fr 1.3fr;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .panel,
+  aside {
+    padding: 1.25rem;
+    border-radius: 1.25rem;
+    background: var(--surface);
+    border: 1px solid color-mix(in srgb, var(--primary) 10%, transparent);
+  }
+}
+
+@media (max-width: 800px) {
+  .contact-page {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+/* ========================================
+   Home Page
+   ======================================== */
+
+.home-page {
+  display: block;
+
+  .hero,
+  .section,
+  .stats {
+    width: min(1200px, calc(100% - 2rem));
+    margin-inline: auto;
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 1.5rem;
+    padding: 2.5rem 0 1rem;
+  }
+
+  .eyebrow {
+    margin: 0 0 0.6rem;
+    color: var(--primary);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  h1,
+  h2,
+  h3 {
+    margin: 0 0 0.75rem;
+    letter-spacing: -0.03em;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    line-height: 1.08;
+  }
+
+  .hero-copy>p,
+  .hero-panel>p,
+  .section p {
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 1.25rem 0;
+  }
+
+  .highlights {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      position: relative;
+      margin-top: 0.55rem;
+      padding-left: 1.2rem;
+      color: var(--muted);
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0.55rem;
+        width: 0.55rem;
+        height: 0.55rem;
+        border-radius: 99px;
+        background: var(--accent);
+      }
+    }
+  }
+
+  .hero-panel,
+  .stats article,
+  mat-card {
+    border-radius: 1.25rem !important;
+  }
+
+  .hero-panel {
+    padding: 1.25rem;
+    background: var(--surface);
+    border: 1px solid color-mix(in srgb, var(--primary) 10%, transparent);
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.9rem;
+    margin-top: 1.5rem;
+
+    article {
+      padding: 1.1rem;
+      background: var(--surface);
+      border: 1px solid color-mix(in srgb, var(--primary) 8%, transparent);
+    }
+
+    strong {
+      display: block;
+      font-size: 1.6rem;
+    }
+  }
+
+  .section {
+    padding: 2.5rem 0 0;
+  }
+
+  .section-heading {
+    max-width: 40rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .brand-list,
+  .card-grid,
+  .product-grid {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .brand-list {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: grid;
+      place-items: center;
+      min-height: 64px;
+      border-radius: 999px;
+      background: var(--surface);
+      border: 1px solid color-mix(in srgb, var(--primary) 10%, transparent);
+      font-weight: 700;
+    }
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  mat-card {
+    padding: 1.15rem;
+  }
+
+  .count {
+    margin: 0 0 0.5rem;
+    color: var(--primary);
+    font-size: 0.8rem;
+    font-weight: 800;
+  }
+}
+
+@media (max-width: 960px) {
+  .home-page {
+
+    .hero,
+    .stats {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+/* ========================================
+   Price Lists Page
+   ======================================== */
+
+.price-lists-page {
+  display: block;
+  width: min(1200px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2rem 0 3rem;
+
+  .eyebrow {
+    margin: 0 0 0.5rem;
+    color: var(--primary);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  h1,
+  h2 {
+    margin: 0 0 0.6rem;
+  }
+
+  p {
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.9rem;
+    margin-top: 1.5rem;
+  }
+
+  mat-card {
+    padding: 1.15rem;
+    border-radius: 1.25rem !important;
+  }
+
+  .meta {
+    margin: 0 0 0.5rem;
+    color: var(--primary);
+    font-weight: 800;
+  }
+
+  button {
+    margin-top: 1rem;
+  }
+}
+
+/* ========================================
+   Products Page
+   ======================================== */
+
+.products-page {
+  display: block;
+  width: min(1200px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2rem 0 3rem;
+
+  .eyebrow {
+    margin: 0 0 0.5rem;
+    color: var(--primary);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    margin: 0 0 0.6rem;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+  }
+
+  p {
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .filters {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 0.75rem;
+    margin: 1.5rem 0 0.5rem;
+  }
+
+  .count {
+    margin: 0 0 1rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0.9rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .products-page {
+    .filters {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+/* ========================================
+   Quote Page
+   ======================================== */
+
+.quote-page {
+  display: block;
+  width: min(800px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2rem 0 3rem;
+
+  .eyebrow {
+    margin: 0 0 0.5rem;
+    color: var(--primary);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    margin: 0 0 0.6rem;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+  }
+
+  p {
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .panel {
+    margin-top: 1.5rem;
+    padding: 1.25rem;
+    border-radius: 1.25rem;
+    background: var(--surface);
+    border: 1px solid color-mix(in srgb, var(--primary) 10%, transparent);
+  }
+}
+
+/* ========================================
+   Product Card
+   ======================================== */
+
+.product-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.25rem;
+  border-radius: 1.25rem !important;
+
+  .badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--primary) 12%, white);
+    color: var(--primary);
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .meta {
+    margin: 0 0 0.5rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  h3 {
+    margin: 0 0 0.6rem;
+    padding-right: 5rem;
+    font-size: 1.25rem;
+    line-height: 1.25;
+  }
+
+  p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  dl {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin: 1rem 0 0;
+  }
+
+  dt {
+    color: var(--muted);
+    font-size: 0.75rem;
+  }
+
+  dd {
+    margin: 0.15rem 0 0;
+    font-weight: 700;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: auto;
+    padding-top: 1.1rem;
+    font-weight: 700;
+  }
+}
+
+@media (max-width: 640px) {
+  .product-card {
+    dl {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+/* ========================================
+   Quote Form
+   ======================================== */
+
+.quote-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.25rem 1rem;
+
+  .full {
+    grid-column: 1 / -1;
+  }
+
+  .success {
+    margin: 0;
+    padding: 1rem 1.1rem;
+    border-radius: 0.9rem;
+    background: #e8f5e9;
+    color: #14532d;
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 720px) {
+  .quote-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ========================================
+   Angular Material - Sunrise Orange Theme
+   ======================================== */
+
+/* Filled / Raised buttons */
+.mat-mdc-unelevated-button,
+.mat-mdc-raised-button {
+  --mdc-filled-button-container-color: var(--primary);
+  --mdc-filled-button-label-text-color: #ffffff;
+
+  background-color: var(--primary);
+  color: #ffffff;
+}
+
+.mat-mdc-unelevated-button:hover,
+.mat-mdc-raised-button:hover {
+  background-color: var(--primary-strong);
+}
+
+/* Text buttons */
+.mat-mdc-button {
+  --mdc-text-button-label-text-color: var(--primary-strong);
+}
+
+/* Outlined buttons */
+.mat-mdc-outlined-button {
+  --mdc-outlined-button-label-text-color: var(--primary-strong);
+  --mdc-outlined-button-outline-color: var(--primary);
+}
+
+/* Icon buttons */
+.mat-mdc-icon-button {
+  --mdc-icon-button-icon-color: var(--primary);
+}
+
+/* Form fields */
+.mat-mdc-form-field {
+  --mdc-outlined-text-field-focus-outline-color: var(--primary);
+  --mdc-outlined-text-field-focus-label-text-color: var(--primary);
+  --mdc-outlined-text-field-hover-outline-color: var(--primary);
+}
+
+/* Select */
+.mat-mdc-select {
+  --mat-select-focused-arrow-color: var(--primary);
+}
+
+/* Checkbox */
+.mat-mdc-checkbox {
+  --mdc-checkbox-selected-icon-color: var(--primary);
+  --mdc-checkbox-selected-hover-icon-color: var(--primary);
+  --mdc-checkbox-selected-focus-icon-color: var(--primary);
+  --mdc-checkbox-selected-checkmark-color: #ffffff;
+}
+
+/* Radio */
+.mat-mdc-radio-button {
+  --mdc-radio-selected-icon-color: var(--primary);
+  --mdc-radio-selected-hover-icon-color: var(--primary);
+  --mdc-radio-selected-focus-icon-color: var(--primary);
+}
+
+/* Progress spinner */
+.mat-mdc-progress-spinner {
+  --mdc-circular-progress-active-indicator-color: var(--primary);
+}
+
+/* Slider */
+.mat-mdc-slider {
+  --mdc-slider-active-track-color: var(--primary);
+  --mdc-slider-handle-color: var(--primary);
+}
+
+/* Ripple / focus */
+.mat-ripple-element {
+  background-color: color-mix(
+    in srgb,
+    var(--primary) 20%,
+    transparent
+  );
+}
+
+/* ========================================
+   Angular Material Toolbar - Sunrise Theme
+   ======================================== */
+
+.site-header {
+  --mat-toolbar-container-background-color: var(--primary);
+  --mat-toolbar-container-text-color: #ffffff;
+
+  background-color: var(--primary) !important;
+  color: #ffffff !important;
+
+  .desktop-nav {
+    .mat-mdc-button {
+      --mdc-text-button-label-text-color: #ffffff;
+      color: #ffffff;
+    }
+
+    .mat-mdc-button:hover {
+      background: color-mix(in srgb, #ffffff 12%, transparent);
+    }
+  }
+
+  .quote-cta {
+    --mdc-filled-button-container-color: var(--accent);
+    --mdc-filled-button-label-text-color: var(--primary-dark);
+
+    background: var(--accent);
+    color: var(--primary-dark);
+  }
+}

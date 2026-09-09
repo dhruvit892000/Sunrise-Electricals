@@ -8,7 +8,6 @@ import { CatalogService } from '../../shared/services/catalog.service';
   selector: 'app-site-header',
   imports: [RouterLink, RouterLinkActive, MatToolbarModule, MatButtonModule],
   templateUrl: './site-header.html',
-  styleUrl: './site-header.css',
 })
 export class SiteHeader {
   private readonly catalog = inject(CatalogService);

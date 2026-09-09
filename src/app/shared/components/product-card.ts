@@ -8,7 +8,6 @@ import { ProductItem } from '../models/catalog.models';
   selector: 'app-product-card',
   imports: [RouterLink, MatCardModule, MatButtonModule],
   templateUrl: './product-card.html',
-  styleUrl: './product-card.css',
 })
 export class ProductCard {
   readonly product = input.required<ProductItem>();
