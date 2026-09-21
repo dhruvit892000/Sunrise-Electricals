@@ -11,4 +11,10 @@ import { ProductItem } from '../models/catalog.models';
 })
 export class ProductCard {
   readonly product = input.required<ProductItem>();
+
+  imageError = false;
+
+  onImageError(): void {
+    this.imageError = true;
+  }
 }

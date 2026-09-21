@@ -16,6 +16,14 @@ export const routes: Routes = [
         title: 'Products | Sunrise Electricals',
       },
       {
+        path: 'products/:slug',
+        loadComponent: () =>
+          import('./features/products/product-detail').then(
+            (m) => m.ProductDetail,
+          ),
+        title: 'Product Details | Sunrise Electricals',
+      },
+      {
         path: 'price-lists',
         loadComponent: () =>
           import('./features/price-lists/price-lists').then((m) => m.PriceLists),

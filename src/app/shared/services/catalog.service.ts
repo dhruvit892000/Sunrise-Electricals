@@ -37,7 +37,9 @@ export class CatalogService {
         product.name.toLowerCase().includes(query) ||
         product.sku.toLowerCase().includes(query) ||
         product.brand.toLowerCase().includes(query) ||
-        product.category.toLowerCase().includes(query);
+        product.category.toLowerCase().includes(query) ||
+        product.subcategory.toLowerCase().includes(query) ||
+        product.description.toLowerCase().includes(query);
 
       const matchesBrand = brand === 'all' || product.brand === brand;
       const matchesCategory = category === 'all' || product.category === category;
@@ -49,4 +51,8 @@ export class CatalogService {
   categoryBySlug(slug: string): CategoryItem | undefined {
     return this.categories.find((category) => category.slug === slug);
   }
+
+  productBySlug(slug: string): ProductItem | undefined {
+  return this.products.find((product) => product.slug === slug);
+}
 }

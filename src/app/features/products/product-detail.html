@@ -1,0 +1,102 @@
+@if (product(); as item) {
+<section class="product-detail-page">
+  <a class="back-link" routerLink="/products">
+    ← Back to Products
+  </a>
+
+  <div class="product-detail-layout">
+    <div class="product-detail-image">
+      <img [src]="item.image" [alt]="item.name" />
+    </div>
+
+    <div class="product-detail-content">
+      <p class="product-brand">{{ item.brand }}</p>
+
+      <p class="product-category">
+        {{ item.category }} · {{ item.subcategory }}
+      </p>
+
+      <h1>{{ item.name }}</h1>
+
+      <p class="product-detail-description">
+        {{ item.description }}
+      </p>
+
+      <div class="product-detail-status">
+        <span>{{ item.availability }}</span>
+        <span>MOQ: {{ item.moq }}</span>
+        <span>SKU: {{ item.sku }}</span>
+      </div>
+
+      @if (item.specifications.length > 0) {
+      <div class="product-specifications">
+        <h2>Product Specifications</h2>
+
+        <dl>
+          @for (spec of item.specifications; track spec.label) {
+          <div>
+            <dt>{{ spec.label }}</dt>
+            <dd>{{ spec.value }}</dd>
+          </div>
+          }
+        </dl>
+      </div>
+      }
+
+      <div class="product-application">
+        <span>Typical Application</span>
+        <strong>{{ item.application }}</strong>
+      </div>
+
+      <div class="product-detail-actions">
+        <a mat-flat-button color="primary" routerLink="/quote" [queryParams]="{ sku: item.sku }">
+          Request Bulk Quote
+        </a>
+
+        <a mat-stroked-button routerLink="/contact">
+          Contact Sales
+        </a>
+      </div>
+    </div>
+  </div>
+
+  @if (relatedProducts().length > 0) {
+  <section class="related-products">
+    <div class="related-products-header">
+      <div>
+        <p class="eyebrow">Related products</p>
+
+        <h2>You may also need</h2>
+
+        <p>
+          Explore other products from the same category for your
+          industrial procurement requirements.
+        </p>
+      </div>
+
+      <a mat-stroked-button routerLink="/products" [queryParams]="{ category: item.category }">
+        View Category
+      </a>
+    </div>
+
+    <div class="related-products-grid">
+      @for (related of relatedProducts(); track related.id) {
+      <app-product-card [product]="related" />
+      }
+    </div>
+  </section>
+  }
+</section>
+} @else {
+<section class="product-not-found">
+  <h1>Product not found</h1>
+
+  <p>
+    The product you're looking for is not available in our catalogue.
+  </p>
+
+  <a mat-stroked-button routerLink="/products">
+    Back to Products
+  </a>
+</section>
+}

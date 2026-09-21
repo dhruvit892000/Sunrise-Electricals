@@ -1,46 +1,120 @@
 <section class="products-page">
-  <header>
-    <p class="eyebrow">Product catalog</p>
-    <h1>Search electrical products by brand, category, or SKU</h1>
-    <p>Request a quote on any item. Pricing is quoted for bulk and project procurement.</p>
+  <!-- Page Header -->
+  <header class="products-header">
+    <div class="products-header-content">
+      <p class="eyebrow">Industrial Product Catalogue</p>
+
+      <h1>
+        Electrical products for
+        <span>industrial procurement</span>
+      </h1>
+
+      <p class="products-intro">
+        Browse trusted electrical products by brand, category, or SKU.
+        Get competitive pricing and bulk supply support for your project.
+      </p>
+    </div>
+
+    <a class="header-quote-button" mat-flat-button color="primary" routerLink="/quote">
+      Request Bulk Quote
+    </a>
   </header>
 
-  <form class="filters" aria-label="Product filters">
-    <mat-form-field appearance="outline">
-      <mat-label>Search products</mat-label>
-      <input matInput [formControl]="search" type="search" />
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Brand</mat-label>
-      <mat-select [formControl]="brand">
-        <mat-option value="all">All brands</mat-option>
-        @for (item of brands; track item) {
-          <mat-option [value]="item">{{ item }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Category</mat-label>
-      <mat-select [formControl]="category">
-        <mat-option value="all">All categories</mat-option>
-        @for (item of categories; track item) {
-          <mat-option [value]="item">{{ item }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-  </form>
-
-  <p class="count" role="status">{{ resultCount() }} products found</p>
-
-  @if (filteredProducts().length === 0) {
-    <p>No products match the current filters. Try another brand or search term.</p>
-  } @else {
-    <div class="grid">
-      @for (product of filteredProducts(); track product.id) {
-        <app-product-card [product]="product" />
-      }
+  <!-- Filters -->
+  <section class="catalog-toolbar" aria-label="Product catalogue filters">
+    <div class="catalog-search">
+      <mat-form-field appearance="outline">
+        <mat-label>Search products, brands, SKU...</mat-label>
+        <input matInput [formControl]="search" type="search" autocomplete="off" />
+      </mat-form-field>
     </div>
+
+    <div class="catalog-filter">
+      <mat-form-field appearance="outline">
+        <mat-label>Brand</mat-label>
+
+        <mat-select [formControl]="brand">
+          <mat-option value="all">All brands</mat-option>
+
+          @for (item of brands; track item) {
+          <mat-option [value]="item">
+            {{ item }}
+          </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="catalog-filter">
+      <mat-form-field appearance="outline">
+        <mat-label>Category</mat-label>
+
+        <mat-select [formControl]="category">
+          <mat-option value="all">All categories</mat-option>
+
+          @for (item of categories; track item) {
+          <mat-option [value]="item">
+            {{ item }}
+          </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="catalog-filter">
+      <mat-form-field appearance="outline">
+        <mat-label>Sort by</mat-label>
+
+        <mat-select [formControl]="sort">
+          <mat-option value="default">Default</mat-option>
+          <mat-option value="name-asc">Name: A–Z</mat-option>
+          <mat-option value="name-desc">Name: Z–A</mat-option>
+          <mat-option value="brand-asc">Brand: A–Z</mat-option>
+          <mat-option value="availability">Availability</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </section>
+
+  <!-- Results Header -->
+  <div class="catalog-results-header">
+    <div>
+      <p class="results-label">Product Catalogue</p>
+
+      <p class="results-count" role="status">
+        {{ resultCount() }}
+        {{ resultCount() === 1 ? 'product' : 'products' }} found
+      </p>
+    </div>
+
+    @if (searchValue() || brandValue() !== 'all' || categoryValue() !== 'all' || sortValue() !== 'default') {
+    <button class="clear-filters" type="button" (click)="clearFilters()">
+      Clear filters
+    </button>
+    }
+  </div>
+
+  <!-- Products -->
+  @if (filteredProducts().length === 0) {
+  <section class="empty-products">
+    <div class="empty-products-icon">⌕</div>
+
+    <h2>No products found</h2>
+
+    <p>
+      We couldn't find products matching your current search or filters.
+      Try a different keyword, brand, or category.
+    </p>
+
+    <button mat-stroked-button type="button" (click)="clearFilters()">
+      Reset catalogue
+    </button>
+  </section>
+  } @else {
+  <div class="products-grid">
+    @for (product of filteredProducts(); track product.id) {
+    <app-product-card [product]="product" />
+    }
+  </div>
   }
 </section>

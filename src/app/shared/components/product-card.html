@@ -1,26 +1,78 @@
 <mat-card class="product-card" appearance="outlined">
-  <span class="badge">{{ product().badge }}</span>
-  <p class="meta">{{ product().brand }} · {{ product().category }}</p>
-  <h3>{{ product().name }}</h3>
-  <p>{{ product().description }}</p>
-  <dl>
-    <div>
-      <dt>SKU</dt>
-      <dd>{{ product().sku }}</dd>
+  <!-- Product Image -->
+  <div class="product-image-wrapper">
+    @if (product().badge) {
+    <span class="product-badge">{{ product().badge }}</span>
+    }
+
+    @if (!imageError) {
+    <img class="product-image" [src]="product().image" [alt]="product().name" loading="lazy" (error)="onImageError()" />
+    } @else {
+    <div class="product-image-placeholder" aria-label="Product image unavailable">
+      <span>{{ product().brand }}</span>
+      <strong>{{ product().name }}</strong>
     </div>
-    <div>
-      <dt>MOQ</dt>
-      <dd>{{ product().moq }}</dd>
+    }
+  </div>
+
+  <!-- Product Content -->
+  <div class="product-content">
+    <div class="product-heading">
+      <div>
+        <p class="product-brand">{{ product().brand }}</p>
+        <p class="product-category">
+          {{ product().category }} · {{ product().subcategory }}
+        </p>
+      </div>
+
+      <span class="availability" [class.availability-limited]="product().availability === 'Limited'"
+        [class.availability-order]="product().availability === 'Made to Order'">
+        {{ product().availability }}
+      </span>
     </div>
-    <div>
-      <dt>Availability</dt>
-      <dd>{{ product().availability }}</dd>
+
+    <h3 class="product-name">
+      {{ product().name }}
+    </h3>
+
+    <p class="product-description">
+      {{ product().description }}
+    </p>
+
+    <!-- Key Specifications -->
+    @if (product().specifications.length > 0) {
+    <div class="specifications">
+      @for (spec of product().specifications.slice(0, 3); track spec.label) {
+      <div class="spec-item">
+        <span>{{ spec.label }}</span>
+        <strong>{{ spec.value }}</strong>
+      </div>
+      }
     </div>
-  </dl>
-  <div class="actions">
-    <span>{{ product().priceLabel }}</span>
-    <a mat-flat-button color="primary" routerLink="/quote" [queryParams]="{ sku: product().sku }">
-      Get Quote
-    </a>
+    }
+
+    <!-- Procurement Information -->
+    <div class="procurement-info">
+      <div>
+        <span class="info-label">SKU</span>
+        <strong>{{ product().sku }}</strong>
+      </div>
+
+      <div>
+        <span class="info-label">MOQ</span>
+        <strong>{{ product().moq }}</strong>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="product-actions">
+      <a class="details-link" [routerLink]="['/products', product().slug]">
+        View details
+      </a>
+
+      <a mat-flat-button color="primary" routerLink="/quote" [queryParams]="{ sku: product().sku }">
+        Request Quote
+      </a>
+    </div>
   </div>
 </mat-card>
