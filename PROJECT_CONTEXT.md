@@ -248,6 +248,21 @@ The project has moved beyond the initial starter setup and now includes the foll
 - Quote request and contact forms were structured as modern Angular forms connected to the business flow
 - The application content and messaging were adjusted to fit a wholesale electrical distribution brand rather than a generic starter template
 
+**Changed files (2026-09-22)**
+
+- `src/app/app.routes.ts`: Added lazy-loaded route definitions for Home, Products, Product Detail, Price Lists, Quote, About, and Contact.
+- `src/app/core/layout/site-shell.html`: Implemented responsive shell markup including skip link, mobile `mat-sidenav` drawer navigation, and route outlet placement.
+- `src/app/features/home/home.ts` and `home.html`: Home component wiring and template to surface hero, highlights, stats, and quote CTA.
+- `src/app/features/products/products.ts` and `products.html`: Product listing with search, brand/category filters, sorting, and URL-synced query params.
+- `src/app/features/products/product-detail.ts` and `product-detail.html`: Product detail page showing SKU, MOQ, availability, application, and specifications.
+- `src/app/shared/data/catalog.data.ts`: Central mock catalog with `siteNav`, `catalogProducts`, `catalogCategories`, `catalogBrands`, `catalogStats`, and `catalogPriceLists`.
+- `src/app/shared/services/catalog.service.ts`: `CatalogService` exposing catalog data, product/category helpers, and filter logic.
+- `src/app/shared/components/product-card.ts` and `product-card.html`: Reusable product card component used across catalog and listing pages.
+- `src/app/shared/components/quote-form.ts` and `quote-form.html`: Reusable quote/contact form component used on Home, Quote, and Contact pages.
+- `PROJECT_CONTEXT.md`: This file was updated to reflect the current implementation and latest status.
+
+Each listed file contains B2B-facing content and wiring; most catalog and product data are mock fixtures pending API integration.
+
 ## 11. Status Summary
 
 Current status:

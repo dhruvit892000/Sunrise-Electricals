@@ -7,6 +7,12 @@
   <div class="product-detail-layout">
     <div class="product-detail-image">
       <img [src]="item.image" [alt]="item.name" />
+
+      @if (item.badge) {
+      <span class="product-detail-badge">
+        {{ item.badge }}
+      </span>
+      }
     </div>
 
     <div class="product-detail-content">
@@ -22,10 +28,24 @@
         {{ item.description }}
       </p>
 
-      <div class="product-detail-status">
-        <span>{{ item.availability }}</span>
-        <span>MOQ: {{ item.moq }}</span>
-        <span>SKU: {{ item.sku }}</span>
+      <div class="product-procurement-summary">
+        <div class="procurement-item">
+          <span class="procurement-label">Availability</span>
+          <strong [class.in-stock]="item.availability === 'In Stock'" [class.limited]="item.availability === 'Limited'"
+            [class.made-to-order]="item.availability === 'Made to Order'">
+            {{ item.availability }}
+          </strong>
+        </div>
+
+        <div class="procurement-item">
+          <span class="procurement-label">Minimum Order</span>
+          <strong>{{ item.moq }}</strong>
+        </div>
+
+        <div class="procurement-item">
+          <span class="procurement-label">SKU</span>
+          <strong>{{ item.sku }}</strong>
+        </div>
       </div>
 
       @if (item.specifications.length > 0) {

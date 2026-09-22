@@ -188,6 +188,14 @@ mat-form-field {
     font-weight: 800;
   }
 
+  .brand-logo {
+    display: block;
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    object-fit: contain;
+  }
+
   .brand-copy {
     display: flex;
     flex-direction: column;
@@ -1857,35 +1865,80 @@ mat-form-field {
   line-height: 1.75;
 }
 
-/* Status */
+.product-detail-image {
+  position: relative;
+}
 
-.product-detail-status {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+.product-detail-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--primary);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 12px rgba(62, 42, 24, 0.12);
+}
+
+
+
+/* Procurement Summary */
+
+.product-procurement-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
   margin-top: 24px;
 }
 
-.product-detail-status span {
-  display: inline-flex;
-  align-items: center;
-  min-height: 34px;
-  padding: 0 12px;
-  border: 1px solid #eee3d9;
-  border-radius: 999px;
-  background: #faf7f4;
-  color: #5e5148;
-  font-size: 11px;
-  font-weight: 700;
+.procurement-item {
+  min-width: 0;
+  padding: 14px 16px;
+  border: 1px solid #eadfd4;
+  border-radius: 12px;
+  background: #fff;
 }
 
-.product-detail-status span:first-child {
-  border-color: #cce8d4;
-  background: #eaf7ee;
+.procurement-label {
+  display: block;
+  margin-bottom: 6px;
+  color: #91867b;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.procurement-item strong {
+  display: block;
+  overflow: hidden;
+  color: #332b25;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.procurement-item strong.in-stock {
   color: #267a45;
 }
 
-/* Specifications */
+.procurement-item strong.limited {
+  color: #a75c00;
+}
+
+.procurement-item strong.made-to-order {
+  color: #6547a8;
+}
+
 
 /* Specifications */
 
@@ -2124,6 +2177,19 @@ mat-form-field {
 
   .product-detail-actions .mat-mdc-button-base {
     width: 100%;
+  }
+
+  .product-procurement-summary {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .procurement-item {
+    padding: 12px 14px;
+  }
+
+  .procurement-item strong {
+    white-space: normal;
   }
 }
 

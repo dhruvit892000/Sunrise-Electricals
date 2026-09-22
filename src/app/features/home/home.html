@@ -15,7 +15,7 @@
 
       <ul class="highlights">
         @for (item of highlights; track item) {
-          <li>{{ item }}</li>
+        <li>{{ item }}</li>
         }
       </ul>
     </div>
@@ -31,10 +31,10 @@
 
   <section class="stats" aria-label="Business metrics">
     @for (stat of stats; track stat.label) {
-      <article>
-        <strong>{{ stat.value }}</strong>
-        <span>{{ stat.label }}</span>
-      </article>
+    <article>
+      <strong>{{ stat.value }}</strong>
+      <span>{{ stat.label }}</span>
+    </article>
     }
   </section>
 
@@ -46,7 +46,12 @@
 
     <ul class="brand-list">
       @for (brand of brands; track brand) {
-        <li>{{ brand }}</li>
+      <li>
+        <a [routerLink]="['/products']" [queryParams]="{ brand: brand }"
+          [attr.aria-label]="'View ' + brand + ' products'">
+          {{ brand }}
+        </a>
+      </li>
       }
     </ul>
   </section>
@@ -59,19 +64,14 @@
 
     <div class="card-grid">
       @for (category of categories; track category.slug) {
-        <mat-card appearance="outlined">
-          <p class="count">{{ category.count }}</p>
-          <h3>{{ category.title }}</h3>
-          <p>{{ category.description }}</p>
-          <a
-            mat-button
-            color="primary"
-            routerLink="/products"
-            [queryParams]="{ category: category.filterKey }"
-          >
-            View products
-          </a>
-        </mat-card>
+      <mat-card appearance="outlined">
+        <p class="count">{{ category.count }}</p>
+        <h3>{{ category.title }}</h3>
+        <p>{{ category.description }}</p>
+        <a mat-button color="primary" routerLink="/products" [queryParams]="{ category: category.filterKey }">
+          View products
+        </a>
+      </mat-card>
       }
     </div>
   </section>
@@ -84,7 +84,7 @@
 
     <div class="product-grid">
       @for (product of products; track product.id) {
-        <app-product-card [product]="product" />
+      <app-product-card [product]="product" />
       }
     </div>
   </section>
@@ -97,12 +97,12 @@
 
     <div class="card-grid">
       @for (list of priceLists; track list.id) {
-        <mat-card appearance="outlined">
-          <p class="count">{{ list.brand }} · {{ list.size }}</p>
-          <h3>{{ list.title }}</h3>
-          <p>{{ list.date }}</p>
-          <a mat-stroked-button routerLink="/price-lists">Download PDF</a>
-        </mat-card>
+      <mat-card appearance="outlined">
+        <p class="count">{{ list.brand }} · {{ list.size }}</p>
+        <h3>{{ list.title }}</h3>
+        <p>{{ list.date }}</p>
+        <a mat-stroked-button routerLink="/price-lists">Download PDF</a>
+      </mat-card>
       }
     </div>
   </section>

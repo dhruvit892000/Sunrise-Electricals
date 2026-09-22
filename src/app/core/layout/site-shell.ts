@@ -1,6 +1,13 @@
-import { Component, inject, viewChild } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Component, inject, PLATFORM_ID, viewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import {
+  NavigationEnd,
+  Router,
+  RouterLink,
+  RouterLinkActive,
+  RouterOutlet,
+} from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
@@ -12,6 +19,7 @@ import { SiteHeader } from './site-header';
 @Component({
   selector: 'app-site-shell',
   imports: [
+    
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
@@ -26,6 +34,8 @@ import { SiteHeader } from './site-header';
 export class SiteShell {
   private readonly catalog = inject(CatalogService);
   private readonly router = inject(Router);
+  private readonly platformId = inject(PLATFORM_ID);
+
   private readonly drawer = viewChild<MatSidenav>('drawer');
 
   readonly nav = this.catalog.nav;
@@ -38,6 +48,11 @@ export class SiteShell {
       )
       .subscribe(() => {
         void this.drawer()?.close();
+
+        if (isPlatformBrowser(this.platformId)) {
+          window.scrollTo(0, 0);
+        }
       });
   }
 }
+
