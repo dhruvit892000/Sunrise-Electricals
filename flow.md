@@ -32,3 +32,43 @@
               │
               ▼
        SUBMIT ENQUIRY
+
+       
+
+                                ┌───────────────────┐
+                         │ Manufacturer Sites│
+                         └─────────┬─────────┘
+                                   │
+                         Import / Sync Process
+                                   │
+                                   ▼
+                         ┌───────────────────┐
+                         │   SQL Server      │
+                         │                   │
+                         │ Brands            │
+                         │ Categories        │
+                         │ Products          │
+                         │ Specifications    │
+                         │ Images            │
+                         │ ProductSources    │
+                         │ Quotes            │
+                         │ Replies           │
+                         └─────────┬─────────┘
+                                   │
+                              Dapper/Data
+                                   │
+                                   ▼
+                         ┌───────────────────┐
+                         │ Business Layer    │
+                         └─────────┬─────────┘
+                                   │
+                                   ▼
+                         ┌───────────────────┐
+                         │ ASP.NET Core API  │
+                         └─────────┬─────────┘
+                                   │
+                                   ▼
+                         ┌───────────────────┐
+                         │ Angular 22        │
+                         │ Sunrise Website   │
+                         └───────────────────┘
