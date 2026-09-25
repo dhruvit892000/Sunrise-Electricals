@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="../SunriseElectricals.BusinessService/SunriseElectricals.BusinessService.csproj" />
+  <Project Path="../SunriseElectricals.Common/SunriseElectricals.Common.csproj" />
+  <Project Path="../SunriseElectricals.Core/SunriseElectricals.Core.csproj" />
+  <Project Path="../SunriseElectricals.RepositoryService/SunriseElectricals.RepositoryService.csproj" />
+  <Project Path="SunriseElectricals_Api.csproj" />
+</Solution>

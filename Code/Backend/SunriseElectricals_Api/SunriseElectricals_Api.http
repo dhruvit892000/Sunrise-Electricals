@@ -1,0 +1,6 @@
+@SunriseElectricals_Api_HostAddress = http://localhost:5068
+
+GET {{SunriseElectricals_Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
