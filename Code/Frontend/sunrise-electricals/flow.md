@@ -72,3 +72,41 @@
                          │ Angular 22        │
                          │ Sunrise Website   │
                          └───────────────────┘
+
+
+
+
+
+
+                         EXTERNAL WORLD
+     │
+     ├── Schneider API
+     ├── Siemens data/feed
+     ├── Hager catalogue/API
+     ├── L&T data/feed
+     ├── Polycab catalogue
+     ├── KEI catalogue
+     ├── RR Kabel catalogue
+     ├── Crompton catalogue
+     ├── Havells catalogue
+     └── Other sources
+              │
+              ▼
+       DATA INGESTION
+              │
+              ▼
+       Sunrise Database
+              │
+      ┌───────┼────────┐
+      ▼       ▼        ▼
+   Brands  Products  Categories
+              │
+       ┌──────┼───────┐
+       ▼      ▼       ▼
+   Images   Specs   Source Data
+              │
+              ▼
+       Sunrise API
+              │
+              ▼
+       Angular Website

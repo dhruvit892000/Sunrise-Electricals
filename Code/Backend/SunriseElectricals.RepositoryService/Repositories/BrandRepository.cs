@@ -6,101 +6,111 @@ using SunriseElectricals.RepositoryService.Interfaces;
 
 namespace SunriseElectricals.RepositoryService.Repositories
 {
-    public class CategoryRepository : ICategoryRepository
+    public class BrandRepository : IBrandRepository
     {
         private readonly IDbConnectionProvider _provider;
 
-        public CategoryRepository(IDbConnectionProvider provider)
+        public BrandRepository(IDbConnectionProvider provider)
         {
             _provider = provider;
         }
 
-        public async Task<IEnumerable<Category>> GetAllAsync()
+        public async Task<IEnumerable<Brand>> GetAllAsync()
         {
             const string sql = """
             SELECT
-                CategoryId,
+                BrandId,
                 Name,
                 Slug,
+                WebsiteUrl,
+                ManufacturerCode,
                 Description,
-                ImageUrl,
+                LogoUrl,
                 IsActive,
                 DisplayOrder,
                 CreatedAt,
                 UpdatedAt
-            FROM Categories
+            FROM Brands
             WHERE IsActive = 1
             ORDER BY DisplayOrder, Name;
             """;
 
-            return await _provider.Connection.QueryAsync<Category>(sql);
+            return await _provider.Connection.QueryAsync<Brand>(sql);
         }
 
-        public async Task<Category?> GetByIdAsync(int id)
+        public async Task<Brand?> GetByIdAsync(int id)
         {
             const string sql = """
             SELECT
-                CategoryId,
+                BrandId,
                 Name,
                 Slug,
+                WebsiteUrl,
+                ManufacturerCode,
                 Description,
-                ImageUrl,
+                LogoUrl,
                 IsActive,
                 DisplayOrder,
                 CreatedAt,
                 UpdatedAt
-            FROM Categories
-            WHERE CategoryId = @Id;
+            FROM Brands
+            WHERE BrandId = @Id;
             """;
 
-            return await _provider.Connection.QueryFirstOrDefaultAsync<Category>(
+            return await _provider.Connection.QueryFirstOrDefaultAsync<Brand>(
                 sql,
                 new { Id = id });
         }
 
-        public async Task<Category?> GetBySlugAsync(string slug)
+        public async Task<Brand?> GetBySlugAsync(string slug)
         {
             const string sql = """
             SELECT
-                CategoryId,
+                BrandId,
                 Name,
                 Slug,
+                WebsiteUrl,
+                ManufacturerCode,
                 Description,
-                ImageUrl,
+                LogoUrl,
                 IsActive,
                 DisplayOrder,
                 CreatedAt,
                 UpdatedAt
-            FROM Categories
+            FROM Brands
             WHERE Slug = @Slug
               AND IsActive = 1;
             """;
 
-            return await _provider.Connection.QueryFirstOrDefaultAsync<Category>(
+            return await _provider.Connection.QueryFirstOrDefaultAsync<Brand>(
                 sql,
                 new { Slug = slug });
         }
 
-        public async Task<Category> CreateAsync(CreateCategoryRequest request)
+        public async Task<Brand> CreateAsync(CreateBrandRequest request)
         {
             const string sql = """
-            INSERT INTO Categories
+            INSERT INTO Brands
             (
                 Name,
                 Slug,
+                WebsiteUrl,
+                ManufacturerCode,
                 Description,
-                ImageUrl,
+                LogoUrl,
                 IsActive,
                 DisplayOrder,
                 CreatedAt,
                 UpdatedAt
             )
             OUTPUT
-                INSERTED.CategoryId,
+                INSERTED.BrandId,
                 INSERTED.Name,
                 INSERTED.Slug,
+                INSERTED.WebsiteUrl,
+                INSERTED.ManufacturerCode,
                 INSERTED.Description,
-                INSERTED.ImageUrl,
+                INSERTED.LogoUrl,
                 INSERTED.IsActive,
                 INSERTED.DisplayOrder,
                 INSERTED.CreatedAt,
@@ -109,8 +119,10 @@ namespace SunriseElectricals.RepositoryService.Repositories
             (
                 @Name,
                 @Slug,
+                @WebsiteUrl,
+                @ManufacturerCode,
                 @Description,
-                @ImageUrl,
+                @LogoUrl,
                 @IsActive,
                 @DisplayOrder,
                 GETUTCDATE(),
@@ -118,7 +130,7 @@ namespace SunriseElectricals.RepositoryService.Repositories
             );
             """;
 
-            return await _provider.Connection.QuerySingleAsync<Category>(
+            return await _provider.Connection.QuerySingleAsync<Brand>(
                 sql,
                 request);
         }
