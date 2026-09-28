@@ -8,11 +8,11 @@ namespace SunriseElectricals.RepositoryService.Repositories
 {
     public class ProductSpecificationRepository : IProductSpecificationRepository
     {
-        private readonly IDbConnectionProvider _connectionProvider;
+        private readonly IDbConnectionProvider _provider;
 
-        public ProductSpecificationRepository(IDbConnectionProvider connectionProvider)
+        public ProductSpecificationRepository(IDbConnectionProvider provider)
         {
-            _connectionProvider = connectionProvider;
+            _provider = provider;
         }
 
         public async Task<IEnumerable<ProductSpecification>> GetByProductIdAsync(int productId)
@@ -30,9 +30,7 @@ namespace SunriseElectricals.RepositoryService.Repositories
                 WHERE ProductId = @ProductId
                 ORDER BY DisplayOrder, ProductSpecificationId;";
 
-            using var connection = _connectionProvider.CreateConnection();
-
-            return await connection.QueryAsync<ProductSpecification>(
+            return await _provider.Connection.QueryAsync<ProductSpecification>(
                 sql,
                 new { ProductId = productId });
         }
@@ -65,9 +63,7 @@ namespace SunriseElectricals.RepositoryService.Repositories
                     GETUTCDATE()
                 );";
 
-            using var connection = _connectionProvider.CreateConnection();
-
-            return await connection.QuerySingleAsync<ProductSpecification>(
+            return await _provider.Connection.QuerySingleAsync<ProductSpecification>(
                 sql,
                 request);
         }
