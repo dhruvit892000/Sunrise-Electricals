@@ -1,5 +1,6 @@
 using SunriseElectricals.Core.DTOs;
 using SunriseElectricals.Core.Entities;
+using SunriseElectricals.BusinessService.Interfaces;
 using SunriseElectricals.RepositoryService.Interfaces;
 
 namespace SunriseElectricals.BusinessService.Services
