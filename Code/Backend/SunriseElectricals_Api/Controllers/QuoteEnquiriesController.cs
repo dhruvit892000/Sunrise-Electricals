@@ -17,7 +17,7 @@ namespace SunriseElectricals_Api.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<QuoteEnquiry>> GetById(int id)
+        public async Task<ActionResult<QuoteEnquiryResponse>> GetById(int id)
         {
             var enquiry = await _quoteEnquiryService.GetByIdAsync(id);
 
