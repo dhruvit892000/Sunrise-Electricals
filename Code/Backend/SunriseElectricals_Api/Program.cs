@@ -30,6 +30,9 @@ builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 
+builder.Services.AddScoped<IProductSpecificationRepository, ProductSpecificationRepository>();
+builder.Services.AddScoped<IProductSpecificationService, ProductSpecificationService>();
+
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
