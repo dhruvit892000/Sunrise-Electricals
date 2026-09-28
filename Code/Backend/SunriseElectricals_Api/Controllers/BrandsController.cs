@@ -37,7 +37,7 @@ namespace SunriseElectricals_Api.Controllers
             return Ok(brand);
         }
 
-        [HttpGet("slug/{slug}")]
+        [HttpGet("{slug}")]
         public async Task<ActionResult<Brand>> GetBySlug(string slug)
         {
             var brand = await _brandService.GetBySlugAsync(slug);
