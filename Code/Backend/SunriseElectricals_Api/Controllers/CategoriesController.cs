@@ -32,6 +32,7 @@ namespace SunriseElectricals_Api.Controllers
             {
                 return NotFound();
             }
+
             return Ok(category);
         }
 
@@ -49,15 +50,15 @@ namespace SunriseElectricals_Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Category>> Create([FromBody] CreateCategoryRequest request)
+        public async Task<ActionResult<Category>> Create(
+            [FromBody] CreateCategoryRequest request)
         {
             var category = await _categoryservice.CreateAsync(request);
 
-            return CreatedAtAction(nameof(GetById),
-                new
-                {
-                    id = category.CategoryId
-                },category);
+            return CreatedAtAction(
+                nameof(GetById),
+                new { id = category.CategoryId },
+                category);
         }
     }
 }
