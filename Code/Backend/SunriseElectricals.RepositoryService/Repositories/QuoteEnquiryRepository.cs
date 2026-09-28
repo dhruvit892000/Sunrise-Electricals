@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Dapper;
 using SunriseElectricals.Core.DTOs;
 using SunriseElectricals.Core.Entities;
@@ -17,118 +18,106 @@ namespace SunriseElectricals.RepositoryService.Repositories
 
         public async Task<QuoteEnquiry> CreateAsync(CreateQuoteEnquiryRequest request)
         {
-            const string insertEnquirySql = @"
-                INSERT INTO QuoteEnquiries
-                (
-                    QuoteNumber,
-                    CustomerName,
-                    CompanyName,
-                    Email,
-                    Phone,
-                    Location,
-                    Message,
-                    Status,
-                    CreatedAt
-                )
-                OUTPUT
-                    INSERTED.QuoteEnquiryId,
-                    INSERTED.QuoteNumber,
-                    INSERTED.CustomerName,
-                    INSERTED.CompanyName,
-                    INSERTED.Email,
-                    INSERTED.Phone,
-                    INSERTED.Location,
-                    INSERTED.Message,
-                    INSERTED.Status,
-                    INSERTED.CreatedAt,
-                    INSERTED.UpdatedAt
-                VALUES
-                (
-                    @QuoteNumber,
-                    @CustomerName,
-                    @CompanyName,
-                    @Email,
-                    @Phone,
-                    @Location,
-                    @Message,
-                    'New',
-                    SYSUTCDATETIME()
-                );";
+            const string sql = @"
+                SET XACT_ABORT ON;
 
-            const string insertItemSql = @"
-                INSERT INTO QuoteEnquiryItems
-                (
-                    QuoteEnquiryId,
-                    ProductId,
-                    ProductName,
-                    Quantity,
-                    Unit,
-                    CustomerRequirement,
-                    CreatedAt
-                )
-                VALUES
-                (
-                    @QuoteEnquiryId,
-                    @ProductId,
-                    @ProductName,
-                    @Quantity,
-                    @Unit,
-                    @CustomerRequirement,
-                    SYSUTCDATETIME()
-                );";
+                BEGIN TRY
+                    BEGIN TRANSACTION;
 
-            var connection = _provider.Connection;
-            if (connection.State != System.Data.ConnectionState.Open)
-            {
-                connection.Open();
-            }
+                    INSERT INTO QuoteEnquiries
+                    (
+                        QuoteNumber,
+                        CustomerName,
+                        CompanyName,
+                        Email,
+                        Phone,
+                        Location,
+                        Message,
+                        Status,
+                        CreatedAt
+                    )
+                    VALUES
+                    (
+                        @QuoteNumber,
+                        @CustomerName,
+                        @CompanyName,
+                        @Email,
+                        @Phone,
+                        @Location,
+                        @Message,
+                        'New',
+                        SYSUTCDATETIME()
+                    );
 
-            using var transaction = connection.BeginTransaction();
+                    DECLARE @QuoteEnquiryId INT = CONVERT(INT, SCOPE_IDENTITY());
 
-            try
-            {
-                var quoteNumber =
-                    $"SE-{DateTime.UtcNow:yyyyMMdd}-{Guid.NewGuid():N}"[..20];
+                    INSERT INTO QuoteEnquiryItems
+                    (
+                        QuoteEnquiryId,
+                        ProductId,
+                        ProductName,
+                        Quantity,
+                        Unit,
+                        CustomerRequirement,
+                        CreatedAt
+                    )
+                    SELECT
+                        @QuoteEnquiryId,
+                        ProductId,
+                        ProductName,
+                        Quantity,
+                        Unit,
+                        CustomerRequirement,
+                        SYSUTCDATETIME()
+                    FROM OPENJSON(@ItemsJson)
+                    WITH
+                    (
+                        ProductId INT '$.ProductId',
+                        ProductName NVARCHAR(250) '$.ProductName',
+                        Quantity DECIMAL(18,2) '$.Quantity',
+                        Unit NVARCHAR(50) '$.Unit',
+                        CustomerRequirement NVARCHAR(1000) '$.CustomerRequirement'
+                    );
 
-                var enquiry = await connection.QuerySingleAsync<QuoteEnquiry>(
-                    insertEnquirySql,
-                    new
-                    {
-                        QuoteNumber = quoteNumber,
-                        request.CustomerName,
-                        request.CompanyName,
-                        request.Email,
-                        request.Phone,
-                        request.Location,
-                        request.Message
-                    },
-                    transaction);
+                    COMMIT TRANSACTION;
 
-                foreach (var item in request.Items)
+                    SELECT
+                        QuoteEnquiryId,
+                        QuoteNumber,
+                        CustomerName,
+                        CompanyName,
+                        Email,
+                        Phone,
+                        Location,
+                        Message,
+                        Status,
+                        CreatedAt,
+                        UpdatedAt
+                    FROM QuoteEnquiries
+                    WHERE QuoteEnquiryId = @QuoteEnquiryId;
+                END TRY
+                BEGIN CATCH
+                    IF @@TRANCOUNT > 0
+                        ROLLBACK TRANSACTION;
+
+                    THROW;
+                END CATCH;";
+
+            var quoteNumber = $"SE-{DateTime.UtcNow:yyyyMMdd}-{Guid.NewGuid():N}"[..20];
+
+            return await _provider.Connection.QuerySingleAsync<QuoteEnquiry>(
+                sql,
+                new
                 {
-                    await connection.ExecuteAsync(
-                        insertItemSql,
-                        new
-                        {
-                            QuoteEnquiryId = enquiry.QuoteEnquiryId,
-                            item.ProductId,
-                            item.ProductName,
-                            item.Quantity,
-                            item.Unit,
-                            item.CustomerRequirement
-                        },
-                        transaction);
-                }
-
-                transaction.Commit();
-
-                return enquiry;
-            }
-            catch
-            {
-                transaction.Rollback();
-                throw;
-            }
+                    QuoteNumber = quoteNumber,
+                    request.CustomerName,
+                    request.CompanyName,
+                    request.Email,
+                    request.Phone,
+                    request.Location,
+                    request.Message,
+                    ItemsJson = JsonSerializer.Serialize(request.Items)
+                });
         }
 
         public async Task<QuoteEnquiry?> GetByIdAsync(int id)
@@ -162,13 +151,9 @@ namespace SunriseElectricals.RepositoryService.Repositories
                 WHERE QuoteEnquiryId = @Id
                 ORDER BY QuoteEnquiryItemId;";
 
-            var connection = _provider.Connection;
-            if (connection.State != System.Data.ConnectionState.Open)
-            {
-                connection.Open();
-            }
-
-            using var multi = await connection.QueryMultipleAsync(sql, new { Id = id });
+            using var multi = await _provider.Connection.QueryMultipleAsync(
+                sql,
+                new { Id = id });
 
             var enquiry = await multi.ReadSingleOrDefaultAsync<QuoteEnquiry>();
 
@@ -177,9 +162,6 @@ namespace SunriseElectricals.RepositoryService.Repositories
                 return null;
             }
 
-            // QuoteEnquiry remains the API's primary entity for this step.
-            // Items are persisted transactionally and can be exposed by a
-            // dedicated read DTO in the next quote workflow step.
             _ = await multi.ReadAsync<QuoteEnquiryItem>();
 
             return enquiry;
