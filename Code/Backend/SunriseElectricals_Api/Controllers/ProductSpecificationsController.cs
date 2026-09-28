@@ -4,7 +4,7 @@ using SunriseElectricals.Core.DTOs;
 
 namespace SunriseElectricals_Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/products/{productId:int}/specifications")]
     [ApiController]
     public class ProductSpecificationsController : ControllerBase
     {
@@ -16,7 +16,7 @@ namespace SunriseElectricals_Api.Controllers
             _productSpecificationService = productSpecificationService;
         }
 
-        [HttpGet("product/{productId:int}")]
+        [HttpGet]
         public async Task<IActionResult> GetByProductId(int productId)
         {
             var specifications =
@@ -26,8 +26,12 @@ namespace SunriseElectricals_Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateProductSpecificationRequest request)
+        public async Task<IActionResult> Create(
+            int productId,
+            CreateProductSpecificationRequest request)
         {
+            request.ProductId = productId;
+
             var specification =
                 await _productSpecificationService.CreateAsync(request);
 
