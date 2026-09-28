@@ -120,7 +120,7 @@ namespace SunriseElectricals.RepositoryService.Repositories
                 });
         }
 
-        public async Task<QuoteEnquiry?> GetByIdAsync(int id)
+        public async Task<QuoteEnquiryResponse?> GetByIdAsync(int id)
         {
             const string sql = @"
                 SELECT
@@ -155,14 +155,14 @@ namespace SunriseElectricals.RepositoryService.Repositories
                 sql,
                 new { Id = id });
 
-            var enquiry = await multi.ReadSingleOrDefaultAsync<QuoteEnquiry>();
+            var enquiry = await multi.ReadSingleOrDefaultAsync<QuoteEnquiryResponse>();
 
             if (enquiry is null)
             {
                 return null;
             }
 
-            _ = await multi.ReadAsync<QuoteEnquiryItem>();
+            enquiry.Items = (await multi.ReadAsync<QuoteEnquiryItemResponse>()).ToList();
 
             return enquiry;
         }
