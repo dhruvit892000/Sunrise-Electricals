@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SunriseElectricals.Core.Entities
+﻿namespace SunriseElectricals.Core.Entities
 {
     public class QuoteReply
     {
@@ -10,9 +6,19 @@ namespace SunriseElectricals.Core.Entities
 
         public int QuoteEnquiryId { get; set; }
 
-        public string ReplyMessage { get; set; } = string.Empty;
+        public string? ReplyMessage { get; set; }
 
-        public string? RepliedBy { get; set; }
+        public string RepliedBy { get; set; } = string.Empty;
+
+        public decimal SubTotal { get; set; }
+
+        public decimal DiscountAmount { get; set; }
+
+        public decimal TaxAmount { get; set; }
+
+        public decimal GrandTotal { get; set; }
+
+        public DateTime? ValidUntil { get; set; }
 
         public DateTime CreatedAt { get; set; }
     }
