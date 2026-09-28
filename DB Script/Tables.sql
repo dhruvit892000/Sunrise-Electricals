@@ -185,16 +185,61 @@ CREATE TABLE QuoteReplies
 (
     QuoteReplyId        INT IDENTITY(1,1) NOT NULL,
     QuoteEnquiryId      INT NOT NULL,
-    ReplyMessage        NVARCHAR(4000) NOT NULL,
+    ReplyMessage        NVARCHAR(4000) NULL,
+
     /*
         No User table/login system is required.
         This is simply the display name of the person/company
         responding to the enquiry.
     */
     RepliedBy           NVARCHAR(150) NOT NULL,
-    CreatedAt            DATETIME2(0) NOT NULL  CONSTRAINT DF_QuoteReplies_CreatedAt DEFAULT (SYSUTCDATETIME()),
+
+    /*
+        Commercial quotation totals.
+        These values preserve the quotation issued by Sunrise
+        at the time the reply was created.
+    */
+    SubTotal            DECIMAL(18,2) NOT NULL CONSTRAINT DF_QuoteReplies_SubTotal DEFAULT (0),
+    DiscountAmount      DECIMAL(18,2) NOT NULL CONSTRAINT DF_QuoteReplies_DiscountAmount DEFAULT (0),
+    TaxAmount           DECIMAL(18,2) NOT NULL CONSTRAINT DF_QuoteReplies_TaxAmount DEFAULT (0),
+    GrandTotal          DECIMAL(18,2) NOT NULL CONSTRAINT DF_QuoteReplies_GrandTotal DEFAULT (0),
+    ValidUntil          DATE NULL,
+
+    CreatedAt           DATETIME2(0) NOT NULL CONSTRAINT DF_QuoteReplies_CreatedAt DEFAULT (SYSUTCDATETIME()),
+
     CONSTRAINT PK_QuoteReplies PRIMARY KEY (QuoteReplyId),
     CONSTRAINT FK_QuoteReplies_QuoteEnquiries FOREIGN KEY (QuoteEnquiryId) REFERENCES QuoteEnquiries(QuoteEnquiryId)
+);
+
+CREATE TABLE QuoteReplyItems
+(
+    QuoteReplyItemId     INT IDENTITY(1,1) NOT NULL,
+    QuoteReplyId         INT NOT NULL,
+    QuoteEnquiryItemId   INT NULL,
+    ProductId            INT NULL,
+
+    /*
+        Snapshot of the product/service name quoted by Sunrise.
+        ProductId remains nullable because a customer may have
+        requested a product that is not in the Sunrise catalogue.
+    */
+    ProductName          NVARCHAR(250) NOT NULL,
+    Quantity             DECIMAL(18,2) NULL,
+    Unit                 NVARCHAR(50) NULL,
+    UnitPrice            DECIMAL(18,2) NULL,
+    DiscountPercent      DECIMAL(5,2) NULL,
+    TaxPercent            DECIMAL(5,2) NULL,
+    LineTotal             DECIMAL(18,2) NOT NULL CONSTRAINT DF_QuoteReplyItems_LineTotal DEFAULT (0),
+
+    CreatedAt             DATETIME2(0) NOT NULL CONSTRAINT DF_QuoteReplyItems_CreatedAt DEFAULT (SYSUTCDATETIME()),
+
+    CONSTRAINT PK_QuoteReplyItems PRIMARY KEY (QuoteReplyItemId),
+    CONSTRAINT FK_QuoteReplyItems_QuoteReplies
+        FOREIGN KEY (QuoteReplyId) REFERENCES QuoteReplies(QuoteReplyId),
+    CONSTRAINT FK_QuoteReplyItems_QuoteEnquiryItems
+        FOREIGN KEY (QuoteEnquiryItemId) REFERENCES QuoteEnquiryItems(QuoteEnquiryItemId),
+    CONSTRAINT FK_QuoteReplyItems_Products
+        FOREIGN KEY (ProductId) REFERENCES Products(ProductId)
 );
 
 
@@ -293,4 +338,19 @@ GO
 
 CREATE INDEX IX_QuoteReplies_QuoteEnquiryId
     ON QuoteReplies(QuoteEnquiryId);
+GO
+
+
+/* Quote Reply Items */
+
+CREATE INDEX IX_QuoteReplyItems_QuoteReplyId
+    ON QuoteReplyItems(QuoteReplyId);
+GO
+
+CREATE INDEX IX_QuoteReplyItems_QuoteEnquiryItemId
+    ON QuoteReplyItems(QuoteEnquiryItemId);
+GO
+
+CREATE INDEX IX_QuoteReplyItems_ProductId
+    ON QuoteReplyItems(ProductId);
 GO
