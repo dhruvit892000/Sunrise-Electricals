@@ -39,6 +39,9 @@ builder.Services.AddScoped<IProductImageService, ProductImageService>();
 builder.Services.AddScoped<IQuoteEnquiryRepository, QuoteEnquiryRepository>();
 builder.Services.AddScoped<IQuoteEnquiryService, QuoteEnquiryService>();
 
+builder.Services.AddScoped<IQuoteReplyRepository, QuoteReplyRepository>();
+builder.Services.AddScoped<IQuoteReplyService, QuoteReplyService>();
+
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
