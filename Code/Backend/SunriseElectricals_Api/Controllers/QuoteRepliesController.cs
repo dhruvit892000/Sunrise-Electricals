@@ -1,0 +1,43 @@
+using Microsoft.AspNetCore.Mvc;
+using SunriseElectricals.BusinessService.Interfaces;
+using SunriseElectricals.Core.DTOs;
+
+namespace SunriseElectricals_Api.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class QuoteRepliesController : ControllerBase
+    {
+        private readonly IQuoteReplyService _quoteReplyService;
+
+        public QuoteRepliesController(IQuoteReplyService quoteReplyService)
+        {
+            _quoteReplyService = quoteReplyService;
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<QuoteReplyResponse>> GetById(int id)
+        {
+            var reply = await _quoteReplyService.GetByIdAsync(id);
+
+            if (reply is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(reply);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<QuoteReplyResponse>> Create(
+            CreateQuoteReplyRequest request)
+        {
+            var reply = await _quoteReplyService.CreateAsync(request);
+
+            return CreatedAtAction(
+                nameof(GetById),
+                new { id = reply.QuoteReplyId },
+                reply);
+        }
+    }
+}
