@@ -28,6 +28,19 @@ namespace SunriseElectricals_Api.Controllers
             return Ok(reply);
         }
 
+        [HttpGet("enquiry/{quoteEnquiryId:int}")]
+        public async Task<ActionResult<QuoteReplyResponse>> GetByEnquiryId(int quoteEnquiryId)
+        {
+            var reply = await _quoteReplyService.GetByEnquiryIdAsync(quoteEnquiryId);
+
+            if (reply is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(reply);
+        }
+
         [HttpPost]
         public async Task<ActionResult<QuoteReplyResponse>> Create(
             CreateQuoteReplyRequest request)
