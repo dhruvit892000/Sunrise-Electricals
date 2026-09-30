@@ -39,5 +39,20 @@ namespace SunriseElectricals_Api.Controllers
                 new { id = reply.QuoteReplyId },
                 reply);
         }
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<QuoteReplyResponse>> Update(
+            int id,
+            UpdateQuoteReplyRequest request)
+        {
+            var reply = await _quoteReplyService.UpdateAsync(id, request);
+
+            if (reply is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(reply);
+        }
     }
 }
