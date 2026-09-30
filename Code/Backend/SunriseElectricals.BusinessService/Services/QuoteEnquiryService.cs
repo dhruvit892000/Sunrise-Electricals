@@ -12,6 +12,7 @@ namespace SunriseElectricals.BusinessService.Services
             "New",
             "Under Review",
             "Quoted",
+            "Customer Responded",
             "Accepted",
             "Rejected",
             "Closed"
@@ -80,7 +81,8 @@ namespace SunriseElectricals.BusinessService.Services
             {
                 "New" => newStatus is "Under Review" or "Closed",
                 "Under Review" => newStatus is "Quoted" or "Closed",
-                "Quoted" => newStatus is "Accepted" or "Rejected" or "Closed",
+                "Quoted" => newStatus is "Customer Responded" or "Closed",
+                "Customer Responded" => newStatus is "Accepted" or "Rejected" or "Closed",
                 "Accepted" => newStatus == "Closed",
                 "Rejected" => newStatus == "Closed",
                 "Closed" => false,
@@ -103,6 +105,11 @@ namespace SunriseElectricals.BusinessService.Services
             if (string.Equals(status, "Quoted", StringComparison.OrdinalIgnoreCase))
             {
                 return "Quoted";
+            }
+
+            if (string.Equals(status, "Customer Responded", StringComparison.OrdinalIgnoreCase))
+            {
+                return "Customer Responded";
             }
 
             if (string.Equals(status, "Accepted", StringComparison.OrdinalIgnoreCase))
