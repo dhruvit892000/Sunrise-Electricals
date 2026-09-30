@@ -8,6 +8,8 @@ namespace SunriseElectricals.RepositoryService.Interfaces
 
         Task<QuoteReplyResponse?> GetByIdAsync(int id);
 
+        Task<QuoteReplyResponse?> GetByEnquiryIdAsync(int quoteEnquiryId);
+
         Task<QuoteReplyResponse?> UpdateAsync(
             int id,
             UpdateQuoteReplyRequest request);
