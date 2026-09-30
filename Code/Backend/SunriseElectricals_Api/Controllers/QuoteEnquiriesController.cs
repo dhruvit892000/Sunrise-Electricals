@@ -16,6 +16,27 @@ namespace SunriseElectricals_Api.Controllers
             _quoteEnquiryService = quoteEnquiryService;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<QuoteEnquiryListResponse>> GetAll(
+            [FromQuery] string? search,
+            [FromQuery] string? status,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 20)
+        {
+            if (page < 1 || pageSize < 1 || pageSize > 100)
+            {
+                return BadRequest("Page must be at least 1 and pageSize must be between 1 and 100.");
+            }
+
+            var enquiries = await _quoteEnquiryService.GetAllAsync(
+                search,
+                status,
+                page,
+                pageSize);
+
+            return Ok(enquiries);
+        }
+
         [HttpGet("{id:int}")]
         public async Task<ActionResult<QuoteEnquiryResponse>> GetById(int id)
         {
