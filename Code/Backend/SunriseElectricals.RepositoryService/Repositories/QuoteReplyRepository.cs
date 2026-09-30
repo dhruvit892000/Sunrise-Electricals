@@ -216,5 +216,164 @@ namespace SunriseElectricals.RepositoryService.Repositories
 
             return reply;
         }
+
+        public async Task<QuoteReplyResponse?> UpdateAsync(
+            int id,
+            UpdateQuoteReplyRequest request)
+        {
+            const string sql = @"
+                SET XACT_ABORT ON;
+
+                BEGIN TRY
+                    BEGIN TRANSACTION;
+
+                    IF NOT EXISTS
+                    (
+                        SELECT 1
+                        FROM QuoteReplies
+                        WHERE QuoteReplyId = @Id
+                    )
+                    BEGIN
+                        ROLLBACK TRANSACTION;
+
+                        SELECT CAST(0 AS BIT) AS Found;
+
+                        RETURN;
+                    END;
+
+                    UPDATE QuoteReplies
+                    SET
+                        ReplyMessage = @ReplyMessage,
+                        RepliedBy = @RepliedBy,
+                        SubTotal = @SubTotal,
+                        DiscountAmount = @DiscountAmount,
+                        TaxAmount = @TaxAmount,
+                        GrandTotal = @GrandTotal,
+                        ValidUntil = @ValidUntil
+                    WHERE QuoteReplyId = @Id;
+
+                    DELETE FROM QuoteReplyItems
+                    WHERE QuoteReplyId = @Id;
+
+                    INSERT INTO QuoteReplyItems
+                    (
+                        QuoteReplyId,
+                        QuoteEnquiryItemId,
+                        ProductId,
+                        ProductName,
+                        Quantity,
+                        Unit,
+                        UnitPrice,
+                        DiscountPercent,
+                        TaxPercent,
+                        LineTotal,
+                        CreatedAt
+                    )
+                    SELECT
+                        @Id,
+                        QuoteEnquiryItemId,
+                        ProductId,
+                        ProductName,
+                        Quantity,
+                        Unit,
+                        UnitPrice,
+                        DiscountPercent,
+                        TaxPercent,
+                        LineTotal,
+                        SYSUTCDATETIME()
+                    FROM OPENJSON(@ItemsJson)
+                    WITH
+                    (
+                        QuoteEnquiryItemId INT '$.QuoteEnquiryItemId',
+                        ProductId INT '$.ProductId',
+                        ProductName NVARCHAR(250) '$.ProductName',
+                        Quantity DECIMAL(18,2) '$.Quantity',
+                        Unit NVARCHAR(50) '$.Unit',
+                        UnitPrice DECIMAL(18,2) '$.UnitPrice',
+                        DiscountPercent DECIMAL(5,2) '$.DiscountPercent',
+                        TaxPercent DECIMAL(5,2) '$.TaxPercent',
+                        LineTotal DECIMAL(18,2) '$.LineTotal'
+                    );
+
+                    UPDATE QuoteEnquiries
+                    SET
+                        Status = 'Quoted',
+                        UpdatedAt = SYSUTCDATETIME()
+                    WHERE QuoteEnquiryId =
+                    (
+                        SELECT QuoteEnquiryId
+                        FROM QuoteReplies
+                        WHERE QuoteReplyId = @Id
+                    );
+
+                    COMMIT TRANSACTION;
+
+                    SELECT CAST(1 AS BIT) AS Found;
+
+                    SELECT
+                        QuoteReplyId,
+                        QuoteEnquiryId,
+                        ReplyMessage,
+                        RepliedBy,
+                        SubTotal,
+                        DiscountAmount,
+                        TaxAmount,
+                        GrandTotal,
+                        ValidUntil,
+                        CreatedAt
+                    FROM QuoteReplies
+                    WHERE QuoteReplyId = @Id;
+
+                    SELECT
+                        QuoteReplyItemId,
+                        QuoteReplyId,
+                        QuoteEnquiryItemId,
+                        ProductId,
+                        ProductName,
+                        Quantity,
+                        Unit,
+                        UnitPrice,
+                        DiscountPercent,
+                        TaxPercent,
+                        LineTotal,
+                        CreatedAt
+                    FROM QuoteReplyItems
+                    WHERE QuoteReplyId = @Id
+                    ORDER BY QuoteReplyItemId;
+                END TRY
+                BEGIN CATCH
+                    IF @@TRANCOUNT > 0
+                        ROLLBACK TRANSACTION;
+
+                    THROW;
+                END CATCH;";
+
+            using var multi = await _provider.Connection.QueryMultipleAsync(
+                sql,
+                new
+                {
+                    Id = id,
+                    request.ReplyMessage,
+                    request.RepliedBy,
+                    request.SubTotal,
+                    request.DiscountAmount,
+                    request.TaxAmount,
+                    request.GrandTotal,
+                    request.ValidUntil,
+                    ItemsJson = JsonSerializer.Serialize(request.Items)
+                });
+
+            var found = await multi.ReadSingleAsync<bool>();
+
+            if (!found)
+            {
+                return null;
+            }
+
+            var reply = await multi.ReadSingleAsync<QuoteReplyResponse>();
+            reply.Items = (await multi.ReadAsync<QuoteReplyItemResponse>()).ToList();
+
+            return reply;
+        }
     }
 }
