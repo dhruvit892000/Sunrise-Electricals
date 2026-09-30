@@ -50,6 +50,28 @@ namespace SunriseElectricals_Api.Controllers
             return Ok(enquiry);
         }
 
+        [HttpPost("{id:int}/customer-response")]
+        public async Task<ActionResult<QuoteEnquiryResponse>> CustomerResponse(int id)
+        {
+            try
+            {
+                var enquiry = await _quoteEnquiryService.UpdateStatusAsync(
+                    id,
+                    "Customer Responded");
+
+                if (enquiry is null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(enquiry);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPut("{id:int}/status")]
         public async Task<ActionResult<QuoteEnquiryResponse>> UpdateStatus(
             int id,
