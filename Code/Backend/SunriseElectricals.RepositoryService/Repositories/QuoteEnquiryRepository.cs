@@ -92,6 +92,63 @@ namespace SunriseElectricals.RepositoryService.Repositories
             };
         }
 
+        public async Task<QuoteEnquiryResponse?> UpdateStatusAsync(int id, string status)
+        {
+            const string sql = @"
+                UPDATE QuoteEnquiries
+                SET
+                    Status = @Status,
+                    UpdatedAt = SYSUTCDATETIME()
+                WHERE QuoteEnquiryId = @Id;
+
+                SELECT
+                    QuoteEnquiryId,
+                    QuoteNumber,
+                    CustomerName,
+                    CompanyName,
+                    Email,
+                    Phone,
+                    Location,
+                    Message,
+                    Status,
+                    CreatedAt,
+                    UpdatedAt
+                FROM QuoteEnquiries
+                WHERE QuoteEnquiryId = @Id;
+
+                SELECT
+                    QuoteEnquiryItemId,
+                    QuoteEnquiryId,
+                    ProductId,
+                    ProductName,
+                    Quantity,
+                    Unit,
+                    CustomerRequirement,
+                    CreatedAt
+                FROM QuoteEnquiryItems
+                WHERE QuoteEnquiryId = @Id
+                ORDER BY QuoteEnquiryItemId;";
+
+            using var multi = await _provider.Connection.QueryMultipleAsync(
+                sql,
+                new
+                {
+                    Id = id,
+                    Status = status
+                });
+
+            var enquiry = await multi.ReadSingleOrDefaultAsync<QuoteEnquiryResponse>();
+
+            if (enquiry is null)
+            {
+                return null;
+            }
+
+            enquiry.Items = (await multi.ReadAsync<QuoteEnquiryItemResponse>()).ToList();
+
+            return enquiry;
+        }
+
         public async Task<QuoteEnquiry> CreateAsync(CreateQuoteEnquiryRequest request)
         {
             const string sql = @"
