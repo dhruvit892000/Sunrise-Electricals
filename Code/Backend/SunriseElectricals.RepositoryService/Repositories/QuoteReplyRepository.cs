@@ -217,6 +217,63 @@ namespace SunriseElectricals.RepositoryService.Repositories
             return reply;
         }
 
+        public async Task<QuoteReplyResponse?> GetByEnquiryIdAsync(int quoteEnquiryId)
+        {
+            const string sql = @"
+                SELECT TOP 1
+                    QuoteReplyId,
+                    QuoteEnquiryId,
+                    ReplyMessage,
+                    RepliedBy,
+                    SubTotal,
+                    DiscountAmount,
+                    TaxAmount,
+                    GrandTotal,
+                    ValidUntil,
+                    CreatedAt
+                FROM QuoteReplies
+                WHERE QuoteEnquiryId = @QuoteEnquiryId
+                ORDER BY QuoteReplyId DESC;
+
+                SELECT
+                    QuoteReplyItemId,
+                    QuoteReplyId,
+                    QuoteEnquiryItemId,
+                    ProductId,
+                    ProductName,
+                    Quantity,
+                    Unit,
+                    UnitPrice,
+                    DiscountPercent,
+                    TaxPercent,
+                    LineTotal,
+                    CreatedAt
+                FROM QuoteReplyItems
+                WHERE QuoteReplyId =
+                (
+                    SELECT TOP 1 QuoteReplyId
+                    FROM QuoteReplies
+                    WHERE QuoteEnquiryId = @QuoteEnquiryId
+                    ORDER BY QuoteReplyId DESC
+                )
+                ORDER BY QuoteReplyItemId;";
+
+            using var multi = await _provider.Connection.QueryMultipleAsync(
+                sql,
+                new { QuoteEnquiryId = quoteEnquiryId });
+
+            var reply = await multi.ReadSingleOrDefaultAsync<QuoteReplyResponse>();
+
+            if (reply is null)
+            {
+                return null;
+            }
+
+            reply.Items = (await multi.ReadAsync<QuoteReplyItemResponse>()).ToList();
+
+            return reply;
+        }
+
         public async Task<QuoteReplyResponse?> UpdateAsync(
             int id,
             UpdateQuoteReplyRequest request)
