@@ -16,6 +16,82 @@ namespace SunriseElectricals.RepositoryService.Repositories
             _provider = provider;
         }
 
+        public async Task<QuoteEnquiryListResponse> GetAllAsync(string? search, string? status, int page, int pageSize)
+        {
+            const string sql = @"
+                SELECT
+                    QuoteEnquiryId,
+                    QuoteNumber,
+                    CustomerName,
+                    CompanyName,
+                    Email,
+                    Phone,
+                    Location,
+                    Status,
+                    CreatedAt,
+                    UpdatedAt
+                FROM QuoteEnquiries
+                WHERE
+                    (
+                        @Search IS NULL
+                        OR @Search = ''
+                        OR QuoteNumber LIKE '%' + @Search + '%'
+                        OR CustomerName LIKE '%' + @Search + '%'
+                        OR CompanyName LIKE '%' + @Search + '%'
+                        OR Email LIKE '%' + @Search + '%'
+                        OR Phone LIKE '%' + @Search + '%'
+                    )
+                    AND
+                    (
+                        @Status IS NULL
+                        OR @Status = ''
+                        OR Status = @Status
+                    )
+                ORDER BY CreatedAt DESC, QuoteEnquiryId DESC
+                OFFSET @Offset ROWS
+                FETCH NEXT @PageSize ROWS ONLY;
+
+                SELECT COUNT(1)
+                FROM QuoteEnquiries
+                WHERE
+                    (
+                        @Search IS NULL
+                        OR @Search = ''
+                        OR QuoteNumber LIKE '%' + @Search + '%'
+                        OR CustomerName LIKE '%' + @Search + '%'
+                        OR CompanyName LIKE '%' + @Search + '%'
+                        OR Email LIKE '%' + @Search + '%'
+                        OR Phone LIKE '%' + @Search + '%'
+                    )
+                    AND
+                    (
+                        @Status IS NULL
+                        OR @Status = ''
+                        OR Status = @Status
+                    );";
+
+            using var multi = await _provider.Connection.QueryMultipleAsync(
+                sql,
+                new
+                {
+                    Search = string.IsNullOrWhiteSpace(search) ? null : search.Trim(),
+                    Status = string.IsNullOrWhiteSpace(status) ? null : status.Trim(),
+                    Offset = (page - 1) * pageSize,
+                    PageSize = pageSize
+                });
+
+            var items = (await multi.ReadAsync<QuoteEnquiryListItemResponse>()).ToList();
+            var totalCount = await multi.ReadSingleAsync<int>();
+
+            return new QuoteEnquiryListResponse
+            {
+                Items = items,
+                Page = page,
+                PageSize = pageSize,
+                TotalCount = totalCount
+            };
+        }
+
         public async Task<QuoteEnquiry> CreateAsync(CreateQuoteEnquiryRequest request)
         {
             const string sql = @"
