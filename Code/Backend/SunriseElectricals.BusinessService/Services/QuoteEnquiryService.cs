@@ -47,7 +47,7 @@ namespace SunriseElectricals.BusinessService.Services
             if (string.IsNullOrWhiteSpace(normalizedStatus) || !AllowedStatuses.Contains(normalizedStatus))
             {
                 throw new ArgumentException(
-                    "Status must be one of: New, Under Review, Quoted, Accepted, Rejected, Closed.");
+                    "Status must be one of: New, Under Review, Quoted, Customer Responded, Accepted, Rejected, Closed.");
             }
 
             normalizedStatus = GetCanonicalStatus(normalizedStatus);
