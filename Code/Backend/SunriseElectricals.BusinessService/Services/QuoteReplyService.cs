@@ -22,5 +22,12 @@ namespace SunriseElectricals.BusinessService.Services
         {
             return _repository.GetByIdAsync(id);
         }
+
+        public Task<QuoteReplyResponse?> UpdateAsync(
+            int id,
+            UpdateQuoteReplyRequest request)
+        {
+            return _repository.UpdateAsync(id, request);
+        }
     }
 }
