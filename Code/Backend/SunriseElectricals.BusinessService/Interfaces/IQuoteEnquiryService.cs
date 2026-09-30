@@ -8,5 +8,7 @@ namespace SunriseElectricals.BusinessService.Interfaces
         Task<QuoteEnquiry> CreateAsync(CreateQuoteEnquiryRequest request);
 
         Task<QuoteEnquiryResponse?> GetByIdAsync(int id);
+
+        Task<QuoteEnquiryListResponse> GetAllAsync(string? search, string? status, int page, int pageSize);
     }
 }
