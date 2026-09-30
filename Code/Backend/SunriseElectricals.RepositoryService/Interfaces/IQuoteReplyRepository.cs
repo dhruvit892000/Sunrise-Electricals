@@ -7,5 +7,9 @@ namespace SunriseElectricals.RepositoryService.Interfaces
         Task<QuoteReplyResponse> CreateAsync(CreateQuoteReplyRequest request);
 
         Task<QuoteReplyResponse?> GetByIdAsync(int id);
+
+        Task<QuoteReplyResponse?> UpdateAsync(
+            int id,
+            UpdateQuoteReplyRequest request);
     }
 }
