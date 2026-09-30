@@ -49,6 +49,8 @@ namespace SunriseElectricals.BusinessService.Services
                     "Status must be one of: New, Under Review, Quoted, Accepted, Rejected, Closed.");
             }
 
+            normalizedStatus = GetCanonicalStatus(normalizedStatus);
+
             var enquiry = await _repository.GetByIdAsync(id);
 
             if (enquiry is null)
@@ -64,7 +66,7 @@ namespace SunriseElectricals.BusinessService.Services
                     $"Invalid status transition from '{currentStatus}' to '{normalizedStatus}'.");
             }
 
-            return await _repository.UpdateStatusAsync(id, GetCanonicalStatus(normalizedStatus));
+            return await _repository.UpdateStatusAsync(id, normalizedStatus);
         }
 
         private static bool IsValidTransition(string currentStatus, string newStatus)
@@ -88,16 +90,37 @@ namespace SunriseElectricals.BusinessService.Services
 
         private static string GetCanonicalStatus(string status)
         {
-            return status switch
+            if (string.Equals(status, "New", StringComparison.OrdinalIgnoreCase))
             {
-                "new" => "New",
-                "under review" => "Under Review",
-                "quoted" => "Quoted",
-                "accepted" => "Accepted",
-                "rejected" => "Rejected",
-                "closed" => "Closed",
-                _ => status
-            };
+                return "New";
+            }
+
+            if (string.Equals(status, "Under Review", StringComparison.OrdinalIgnoreCase))
+            {
+                return "Under Review";
+            }
+
+            if (string.Equals(status, "Quoted", StringComparison.OrdinalIgnoreCase))
+            {
+                return "Quoted";
+            }
+
+            if (string.Equals(status, "Accepted", StringComparison.OrdinalIgnoreCase))
+            {
+                return "Accepted";
+            }
+
+            if (string.Equals(status, "Rejected", StringComparison.OrdinalIgnoreCase))
+            {
+                return "Rejected";
+            }
+
+            if (string.Equals(status, "Closed", StringComparison.OrdinalIgnoreCase))
+            {
+                return "Closed";
+            }
+
+            return status;
         }
     }
 }
