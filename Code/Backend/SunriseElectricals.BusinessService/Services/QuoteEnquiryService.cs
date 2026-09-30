@@ -19,6 +19,11 @@ namespace SunriseElectricals.BusinessService.Services
             return _repository.CreateAsync(request);
         }
 
+        public Task<QuoteEnquiryListResponse> GetAllAsync(string? search, string? status, int page, int pageSize)
+        {
+            return _repository.GetAllAsync(search, status, page, pageSize);
+        }
+
         public Task<QuoteEnquiryResponse?> GetByIdAsync(int id)
         {
             return _repository.GetByIdAsync(id);
